@@ -92,7 +92,7 @@
                 type="date"
                 class="form-control"
                 id="dob"
-                [formControlName]="'dob'"
+                formControlName="dob"
               />
               <div
                 *ngIf="
@@ -102,6 +102,15 @@
                 class="text-danger"
               >
                 Date of Birth is required.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.get('dob')?.hasError('underage') &&
+                  signupForm.get('dob')?.touched
+                "
+                class="text-danger"
+              >
+                Age must be at least 18 years old.
               </div>
             </div>
 
@@ -115,12 +124,21 @@
               ></textarea>
               <div
                 *ngIf="
+                  signupForm.get('address')?.hasError('minlength') &&
+                  signupForm.get('address')?.touched
+                "
+                class="text-danger"
+              >
+                Address should be atleast 15 characters.
+              </div>
+              <div
+                *ngIf="
                   signupForm.get('address')?.hasError('required') &&
                   signupForm.get('address')?.touched
                 "
                 class="text-danger"
               >
-                Address is required.
+                Address required.
               </div>
             </div>
 
@@ -157,14 +175,14 @@
             <!-- Add the remaining form fields (aadhar, position, department, email, password) here -->
 
             <div class="form-group">
-              <label for="aadhar">Aadhar Number (10 digits):</label>
+              <label for="aadhar">Aadhar Number (12 digits):</label>
               <input
                 type="text"
                 class="form-control"
                 id="aadhar"
                 [formControlName]="'aadhar'"
                 placeholder="Enter Aadhar Number"
-                pattern="[0-9]{10}"
+                pattern="[0-9]{12}"
               />
               <div
                 *ngIf="
@@ -182,39 +200,25 @@
                 "
                 class="text-danger"
               >
-                Aadhar Number must be a 10-digit number.
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="position">Position:</label>
-              <input
-                type="text"
-                class="form-control"
-                id="position"
-                [formControlName]="'position'"
-                placeholder="Enter position"
-              />
-              <div
-                *ngIf="
-                  signupForm.get('position')?.hasError('required') &&
-                  signupForm.get('position')?.touched
-                "
-                class="text-danger"
-              >
-                Position is required.
+                Aadhar Number must be a 12-digit number.
               </div>
             </div>
 
             <div class="form-group">
               <label for="department">Department:</label>
-              <input
-                type="text"
+              <select
                 class="form-control"
                 id="department"
                 [formControlName]="'department'"
-                placeholder="Enter department"
-              />
+              >
+                <option value="" disabled>Select Department</option>
+                <option
+                  *ngFor="let department of departments"
+                  [value]="department"
+                >
+                  {{ department }}
+                </option>
+              </select>
               <div
                 *ngIf="
                   signupForm.get('department')?.hasError('required') &&
@@ -223,6 +227,36 @@
                 class="text-danger"
               >
                 Department is required.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="position">Position:</label>
+              <select
+                class="form-control"
+                id="position"
+                [formControlName]="'position'"
+              >
+                <option value="" disabled>Select Position</option>
+                <option
+                  *ngFor="
+                    let position of positions[
+                      signupForm.get('department')!.value
+                    ]
+                  "
+                  [value]="position"
+                >
+                  {{ position }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  signupForm.get('position')?.hasError('required') &&
+                  signupForm.get('position')?.touched
+                "
+                class="text-danger"
+              >
+                Position is required.
               </div>
             </div>
 

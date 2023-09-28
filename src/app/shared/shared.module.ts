@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { BookingDetailsComponent } from './booking-details/booking-details.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { DataService } from '../data.service';
+import { AuthService } from '../auth.service';
 @NgModule({
   declarations: [BookingComponent, BookingDetailsComponent, SignInComponent], 
   imports: [
@@ -13,7 +14,7 @@ import { DataService } from '../data.service';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [DataService], // Include BookingDataService in the providers array
+  providers: [DataService,AuthService], // Include BookingDataService in the providers array
   exports: [BookingComponent, BookingDetailsComponent, SignInComponent]
 })
 export class SharedModule { }

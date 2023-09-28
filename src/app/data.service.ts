@@ -18,6 +18,10 @@ export class DataService {
     const url = 'https://localhost:7036/api/employees';
     return this.http.get(url);
   }
+   postEmployees(data: any): Observable<any> {
+    const url = 'https://localhost:7036/api/employees';
+    return this.http.post(url, data);
+  }
   
 }
 
