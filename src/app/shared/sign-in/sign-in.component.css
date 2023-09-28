@@ -1,0 +1,12 @@
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.btn-primary {
+    margin-top: 15px;
+}
+
+.text-danger {
+    color: red;
+}

@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookingComponent } from '../shared/booking/booking.component';
-// import { BookingDataService } from '../booking-data.service'; // Uncomment this line to import BookingDataService
+import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { BookingDetailsComponent } from './booking-details/booking-details.component';
-
+import { SignInComponent } from './sign-in/sign-in.component';
+import { DataService } from '../data.service';
 @NgModule({
-  declarations: [BookingComponent, BookingDetailsComponent], 
+  declarations: [BookingComponent, BookingDetailsComponent, SignInComponent], 
   imports: [
     CommonModule,
-    FormsModule
-
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [], // Include BookingDataService in the providers array
-  exports: [BookingComponent,BookingDetailsComponent] // If you want to make BookingComponent available for use in other modules, include it in the exports array.
+  providers: [DataService], // Include BookingDataService in the providers array
+  exports: [BookingComponent, BookingDetailsComponent, SignInComponent]
 })
 export class SharedModule { }
