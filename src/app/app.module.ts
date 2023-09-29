@@ -8,11 +8,15 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { DataService } from './data.service';
 import { HomeModule } from './home/home.module';
+import { HomeRoutingModule } from './home-routing.module';
+import { FooterComponent } from './footer/footer.component';
+
 
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent,FooterComponent
+    
   
    // Add other components that belong to this module here
   ],
@@ -23,7 +27,8 @@ import { HomeModule } from './home/home.module';
     SharedModule,
     UserModule,
     HttpClientModule,
-    HomeModule
+   HomeModule,
+    HomeRoutingModule
     
     
   ],

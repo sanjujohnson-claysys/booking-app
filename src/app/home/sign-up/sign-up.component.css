@@ -1,0 +1,15 @@
+.btn{
+        margin-top: 2rem;
+            float: right;
+            margin-right: 6rem;
+}
+.form-control{
+        margin-bottom: 1rem;
+}
+label {
+    
+    margin-bottom: 0.75rem;
+}
+.container{
+    margin-bottom: 100px;
+}
