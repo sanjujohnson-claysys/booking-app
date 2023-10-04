@@ -10,29 +10,57 @@
           type="date"
           class="form-control"
           id="datePicker"
-          [(ngModel)]="selectedDate"
+          formControlName="selectedDate"
+          [min]="currentDate"
+          [max]="maxDate"
+          (change)="dateChanged()"
+          (select)="disableSundays($event)"
         />
+
+        <!-- Error message for required validation -->
+        <div *ngIf="dateControl.hasError('required')" class="text-danger">
+          Date is required.
+        </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="form-group">
         <label for="timeSelect">Select Time:</label>
-        <select class="form-control" id="timeSelect" [(ngModel)]="selectedTime">
+        <select
+          class="form-control"
+          id="timeSelect"
+          [formControl]="timeControl"
+        >
+          <option value="">--- select ---</option>
           <option value="morning">Morning</option>
           <option value="afternoon">Afternoon</option>
         </select>
+        <!-- Error message for required validation -->
+        <div *ngIf="timeControl.hasError('required')" class="text-danger">
+          Time is required.
+        </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="form-group">
         <label for="roomSelect">Select Room:</label>
-        <select class="form-control" id="roomSelect" [(ngModel)]="selectedRoom">
+        <select
+          class="form-control"
+          id="roomSelect"
+          [formControl]="roomControl"
+        >
+          <option value="">--- select ---</option>
           <option value="A">Room A</option>
           <option value="B">Room B</option>
         </select>
+        <!-- Error message for required validation -->
+        <div *ngIf="roomControl.hasError('required')" class="text-danger">
+          Room is required.
+        </div>
       </div>
     </div>
   </div>
+  <button class="centered-button" (click)="submitForm()">Click Me</button>
 
   <!-- Workspace Grid Layout -->
   <div class="row">
@@ -74,7 +102,9 @@
         </table>
       </div>
     </div>
+    <!-- my-button.component.html -->
+    <button class="centered-button" (click)="(buttonSubmit)">Click Me</button>
   </div>
   <!-- Example of using BookingDetailsComponent -->
-  <app-booking-details></app-booking-details>
+  <!-- <app-booking-details></app-booking-details> -->
 </div>

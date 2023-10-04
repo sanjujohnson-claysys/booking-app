@@ -85,3 +85,29 @@ h2 {
 .selected {
     background-color: lightgreen;
 }
+/* my-button.component.css */
+.centered-button {
+    
+    width: 8rem;
+    margin: 20px auto;
+    /* Adjust the margin as needed */
+    padding: 10px 20px;
+    background-color: #3498db;
+    /* Button background color */
+    color: #fff;
+    /* Button text color */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* Smooth hover effect */
+
+    /* Center the button horizontally */
+    text-align: center;
+}
+
+.centered-button:hover {
+    background-color: #2980b9;
+    /* Button background color on hover */
+}

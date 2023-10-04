@@ -290,7 +290,36 @@
             </div>
 
             <div class="form-group">
-              <label for="password">Password (min. 6 characters):</label>
+              <label for="phoneNumber">Phone Number:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="phoneNumber"
+                [formControlName]="'phoneNumber'"
+                placeholder="Enter phone number"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('phoneNumber')?.hasError('required') &&
+                  signupForm.get('phoneNumber')?.touched
+                "
+                class="text-danger"
+              >
+                Phone Number is required.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.get('phoneNumber')?.hasError('pattern') &&
+                  signupForm.get('phoneNumber')?.touched
+                "
+                class="text-danger"
+              >
+                Please enter a valid phone number starting with 6, 7, 8, or 9.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password (min. 8 characters):</label>
               <input
                 type="password"
                 class="form-control"
@@ -314,7 +343,36 @@
                 "
                 class="text-danger"
               >
-                Password must be at least 6 characters long.
+                Password must be at least 8 characters long.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password:</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmPassword"
+                [formControlName]="'confirmPassword'"
+                placeholder="Confirm password"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('confirmPassword')?.hasError('required') &&
+                  signupForm.get('confirmPassword')?.touched
+                "
+                class="text-danger"
+              >
+                Confirm Password is required.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.hasError('passwordMismatch') &&
+                  signupForm.get('confirmPassword')?.touched
+                "
+                class="text-danger"
+              >
+                Passwords do not match.
               </div>
             </div>
 

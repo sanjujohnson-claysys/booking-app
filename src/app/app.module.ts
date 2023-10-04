@@ -10,6 +10,10 @@ import { DataService } from './data.service';
 import { HomeModule } from './home/home.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { FooterComponent } from './footer/footer.component';
+import { UserBookingStatusService } from 'src/app/user-booking-status.service';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
 
 
 
@@ -28,11 +32,12 @@ import { FooterComponent } from './footer/footer.component';
     UserModule,
     HttpClientModule,
    HomeModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    ReactiveFormsModule
     
     
   ],
-  providers: [ DataService],
+  providers: [ DataService,UserBookingStatusService],
   bootstrap: [AppComponent]
   
 })

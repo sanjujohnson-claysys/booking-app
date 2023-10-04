@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators,  AbstractControl  } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DataService } from 'src/app/data.service';
 
@@ -32,9 +32,24 @@ export class EmployeeSignupComponent {
       aadhar: ['', Validators.required],
       departments: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', Validators.required],
+    }, { validator: this.passwordMatchValidator });
+    
   }
+
+
+   passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
+
+  if (password !.value !== confirmPassword !.value) {
+    return { 'passwordMismatch': true };
+  }
+
+  return null;
+}
       updatePositions() {
     const selectedDepartment = this.signupForm.get('department')!.value;
     this.signupForm.get('position')!.setValue('');

@@ -13,6 +13,12 @@ export class DataService {
     const url = 'https://localhost:7036/api/bookingdetails/19';
     return this.http.get(url);
   }
+   postBookingDetails(data: JSON): Observable<any> {
+    const url = 'https://localhost:7036/api/bookingdetails';
+    console.log(data)
+    return this.http.post(url, data);
+    
+  }
 
   getEmployees(): Observable<any> {
     const url = 'https://localhost:7036/api/employees';
