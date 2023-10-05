@@ -9,20 +9,37 @@ import { Color, NgxChartsModule } from '@swimlane/ngx-charts';
 })
 export class GraphComponent implements OnInit {
   data: any[] = [];
-  startDate: string = '';
-  endDate: string = '';
-   colorScheme = 'cool';
+  colorScheme = 'cool';
+  // Get the current date as a string
+startDate: string = new Date().toISOString().slice(0, 10);
 
-  constructor(private dataService: GraphDataService) {}
+// Initialize endDate as an empty string
+endDate: string = '';
+
+// Create a variable to store the two weeks later date
+twoWeeksLater: Date = new Date(this.startDate);
+
+
+
+  
+  
+
+  constructor(private dataService: GraphDataService) {
+    this.twoWeeksLater.setDate(this.twoWeeksLater.getDate() + 14);
+
+// Initialize endDate as a string representing the date two weeks later
+this.endDate = this.twoWeeksLater.toISOString().slice(0, 10);
+  }
 
   ngOnInit(): void {
     // Initialize the component with data
     this.fetchData();
   }
+  
 
   fetchData() {
     // Assuming your GraphDataService returns an observable of the data
-    this.dataService.fetchData("2023-09-27", "2023-09-30").subscribe(
+    this.dataService.fetchData(this.startDate, this.endDate).subscribe(
       (result) => {
         // Assuming result is an array of objects with the structure you provided
         this.data = this.processData(result);
@@ -35,11 +52,15 @@ export class GraphComponent implements OnInit {
   }
   
 
-  // Function to process the data for ngx-charts
-  processData(data: any[]): any[] {
-    // Process and structure the data for the chart
-    return data.map(item => ({
-      name: item.bookingDate, // Use the date as the name
+// Function to process the data for ngx-charts
+processData(data: any[]): any[] {
+  // Process and structure the data for the chart
+  return data.map(item => {
+    // Extract the date part (YYYY-MM-DD) from the timestamp
+    const datePart = item.bookingDate.split('T')[0];
+
+    return {
+      name: datePart, // Use the formatted date as the name
       series: [
         {
           name: 'Morning',
@@ -50,6 +71,8 @@ export class GraphComponent implements OnInit {
           value: item.afternoonCount
         }
       ]
-    }));
-  }
+    };
+  });
+}
+
 }
