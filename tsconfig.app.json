@@ -3,7 +3,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": ["d3-shape", "d3-scale", "d3-selection"]
   },
   "files": [
     "src/main.ts"

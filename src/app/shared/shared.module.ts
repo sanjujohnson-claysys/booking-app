@@ -8,16 +8,18 @@ import { GraphDataService } from '../graph-data.service';
 import { DataService } from '../data.service';
 import { AuthService } from '../auth.service';
 import { GraphComponent } from './graph/graph.component';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 @NgModule({
   declarations: [BookingComponent, BookingDetailsComponent, GraphComponent], 
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxChartsModule,
+    BrowserAnimationsModule 
    
   ],
   providers: [DataService,AuthService,GraphDataService], // Include BookingDataService in the providers array

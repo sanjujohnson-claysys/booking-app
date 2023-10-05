@@ -1,38 +1,17 @@
-<!-- data.component.html -->
+<!-- graph.component.html -->
 
-<div>
-  <label for="startDate">Start Date:</label>
-  <input
-    type="date"
-    id="startDate"
-    [(ngModel)]="startDate"
-    (change)="fetchData()"
-  />
-
-  <label for="endDate">End Date:</label>
-  <input
-    type="date"
-    id="endDate"
-    [(ngModel)]="endDate"
-    (change)="fetchData()"
-  />
-
-  <div *ngIf="data.length > 0">
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Morning Count</th>
-          <th>Afternoon Count</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of data">
-          <td>{{ item.bookingDate }}</td>
-          <td>{{ item.morningCount }}</td>
-          <td>{{ item.afternoonCount }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div class="chart-container">
+  <ngx-charts-bar-vertical-stacked
+    [view]="[700, 400]"
+    [scheme]="colorScheme"
+    [results]="data"
+    [xAxis]="true"
+    [yAxis]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxisLabel]="'Date'"
+    [yAxisLabel]="'Bookings'"
+    [legend]="true"
+  >
+  </ngx-charts-bar-vertical-stacked>
 </div>
