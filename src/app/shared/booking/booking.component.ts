@@ -21,11 +21,11 @@ class Workspace {
   isTaken: boolean = false;
   isFree: boolean = true;
   isSelected: boolean = false;
+  isBooked: boolean = false;
   userId: string = "-1";
   row: number = -1;
   column: number = -1;
   room: Room["code"] | undefined;
-
   time: string | undefined;
 }
 
@@ -67,44 +67,31 @@ export class BookingComponent {
     const maxDate = new Date(today);
     maxDate.setDate(today.getDate() + 7);
     // this.maxDate = this.formatDate(maxDate);
+    
+    console.log("constructor inside"+this.selectedDate)
     this.initializeWorkspaceStatus();
   }
+  
   bookingData: any[] = [];
   loading = false;
   error = '';
-   ngOnInit(): void {
-    // Example usage
-    this.loading = true;
-    this.bookingService.getBookingData(new Date('2023-09-30'), 'Morning', 'A')
+ngOnInit(): void {
+this.searchWorkspace();
+}
 
-      .subscribe({
-  next: (data: any[]) => {
-    this.bookingData = data;
-    this.loading = false;
-    console.log(this.bookingData)
-  },
-  error: (error: any) => {
-    this.error = 'An error occurred while fetching data.';
-    this.loading = false;
-    console.log(error);
-  }
-});
-
+findWorkspace(squareNumber: number): Workspace {
+  if (squareNumber < 1 || squareNumber > 25) {
+    throw new Error('Square number must be between 1 and 25');
   }
 
-   
-   
-    submitForm() {
-    if (this.form.valid) {
-      // Form is valid, you can access form values using this.form.value
-      console.log('Form submitted with values:', this.form.value);
-    } else {
-      // Form is invalid, handle errors or show validation messages
-      console.log('Form is invalid. Please check the fields.');
-    }
-  }
+  // Calculate the row and column values (1-based)
+  const row = Math.floor((squareNumber - 1) / 5) + 1;
+  const col = (squareNumber - 1) % 5 + 1;
+  const workspace = this.room.workspaces[row - 1][col - 1]; // Adjust indices to be 0-based
 
-  
+  return workspace;
+} 
+
  // Function to disable Sundays and dates beyond 7 days from the current day
   get minDate(): string {
     const currentDate = new Date();
@@ -130,41 +117,16 @@ export class BookingComponent {
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-
-  dateChanged() {
-    // Handle date change here
-    console.log('Selected date:', this.selectedDate);
-  }
-
-  disableSundays(event: Event) {
-    const selectedDate = new Date(this.selectedDate);
-    if (this.isSunday(selectedDate)) {
-      event.preventDefault();
-    }
-  }
-  isDateValid(selectedDate: Date): boolean {
-    const currentDate = new Date();
-    const oneWeekFromNow = new Date(currentDate);
-    oneWeekFromNow.setDate(currentDate.getDate() + 7); // Add 7 days to the current date
-
-    return selectedDate >= currentDate && selectedDate <= oneWeekFromNow;
-  }
-
-  isSunday(selectedDate: Date): boolean {
-    return selectedDate.getDay() === 0; // Sunday corresponds to day 0
-  }
-
-  initializeWorkspaceStatus() {
+    initializeWorkspaceStatus() {
     for (let row = 0; row < this.room.rows.length; row++) {
       this.room.workspaces[row] = [];
       for (let col = 0; col < this.room.cols.length; col++) {
         this.room.workspaces[row][col] = new Workspace();
+
       }
     }
   }
-
   
-
   // Modify the bookWorkspace method to book one square at a time and unbook the rest
   bookWorkspace(row: number, col: number, userId: string): void {
     const selectedWorkspace = this.room.workspaces[row][col];
@@ -193,17 +155,14 @@ export class BookingComponent {
   }
   
   sendBookingData(selectedWorkspace: any): void {
-    selectedWorkspace.date = this.selectedRoom;
-    selectedWorkspace.time = this.selectedDate;
-    selectedWorkspace.room = this.selectedTime;
+    selectedWorkspace.date = this.selectedDate;
+    selectedWorkspace.time = this.selectedTime;
+    selectedWorkspace.room = this.selectedRoom;
     this.sendData.postBookingDetails(selectedWorkspace);
   }
+  
 
-  buttonSubmit(): void {
-    console.log("inside");
-    this.sendBookingData(this.selectedWorkspace);
-    console.log("working");
-  }
+  
 
   // Helper method to unbook all workspaces
   unbookAllWorkspaces(): void {
@@ -215,16 +174,75 @@ export class BookingComponent {
         workspace.isSelected = false;
         workspace.userId = '';
       }
+    } 
+  } 
+
+  BookWorkspace() {
+    if (this.form.valid) {
+      // Form is valid, you can access form values using this.form.value
+      console.log('Form submitted with values:', this.form.value);
+    } else {
+      // Form is invalid, handle errors or show validation messages
+      console.log('Form is invalid. Please check the fields.');
     }
-
-
-    // 
-    
   }
+  searchWorkspace(): void {
+  this.loading = true;
+  this.bookingService.getBookingData(new Date(), 'Morning', 'A',24)
+    .subscribe({
+      next: (data: any[]) => {
+        this.bookingData = data;
+        this.loading = false;
 
- 
-    
-  // Function to disable Sundays and dates beyond 7 days from the current day
- 
+        // Assuming data is an array of workspace objects
+        data.forEach((workspaceObj: any) => {
+          const workspaceNumber = workspaceObj.workspace.trim();
+          const workspace = this.findWorkspace(workspaceNumber); // Use 'this' to invoke the method
+
+          if (workspace) {
+            workspace.isTaken = workspaceObj.status === 'taken';
+            workspace.isFree = !(workspace.isTaken ||workspace.isBooked);
+            workspace.isSelected = workspaceObj.status === 'booked'; // Fix the assignment here
+           
+            workspace.isTaken =!workspace.isSelected
+            console.log(workspace);
+          }
+        });
+      },
+      error: (error: any) => {
+        this.error = 'An error occurred while fetching data.';
+        this.loading = false;
+        console.log(error);
+      }
+    });
+}
   
+    // dateChanged() {
+  //   // Handle date change here
+  //   console.log('Selected date:', this.selectedDate);
+  // }
+
+//  disableSundays():void {
+//   console.log(this.selectedDate)
+//   const selectedDate = new Date(this.selectedDate);
+//   const isSunday = this.isSunday(selectedDate);
+//   console.log(isSunday)
+//   if (isSunday) {
+//     console.log(selectedDate)
+//     this.selectedDate="" 
+//   } 
+// }
+  // isDateValid(selectedDate: Date): boolean {
+  //   const currentDate = new Date();
+  //   const oneWeekFromNow = new Date(currentDate);
+  //   oneWeekFromNow.setDate(currentDate.getDate() + 7); // Add 7 days to the current date
+
+  //   return selectedDate >= currentDate && selectedDate <= oneWeekFromNow;
+  // }
+
+  // isSunday(selectedDate: Date): boolean {
+  //   console.log("isSunday method return: "+selectedDate.getDay())
+  //   return selectedDate.getDay() === 0; // Sunday corresponds to day 0
+    
+  // }
 }

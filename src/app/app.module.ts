@@ -17,9 +17,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 
+
 @NgModule({
   declarations: [
-    AppComponent,FooterComponent
+    AppComponent,FooterComponent,
     
   
    // Add other components that belong to this module here

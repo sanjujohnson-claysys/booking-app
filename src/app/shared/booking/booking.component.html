@@ -10,11 +10,10 @@
           type="date"
           class="form-control"
           id="datePicker"
-          formControlName="selectedDate"
+          [(ngModel)]="selectedDate"
+          [formControl]="dateControl"
           [min]="currentDate"
           [max]="maxDate"
-          (change)="dateChanged()"
-          (select)="disableSundays($event)"
         />
 
         <!-- Error message for required validation -->
@@ -60,7 +59,9 @@
       </div>
     </div>
   </div>
-  <button class="centered-button" (click)="submitForm()">Click Me</button>
+  <button class="centered-button" (click)="searchWorkspace()">
+    select workspace
+  </button>
 
   <!-- Workspace Grid Layout -->
   <div class="row">
@@ -103,7 +104,9 @@
       </div>
     </div>
     <!-- my-button.component.html -->
-    <button class="centered-button" (click)="(buttonSubmit)">Click Me</button>
+    <button class="centered-button" (click)="BookWorkspace()">
+      Book workspace
+    </button>
   </div>
   <!-- Example of using BookingDetailsComponent -->
   <!-- <app-booking-details></app-booking-details> -->
