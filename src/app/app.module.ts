@@ -12,6 +12,8 @@ import { HomeRoutingModule } from './home-routing.module';
 import { FooterComponent } from './footer/footer.component';
 import { UserBookingStatusService } from 'src/app/user-booking-status.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { adminBookingService } from './admin-booking.service';
+
 
 
 
@@ -20,7 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent,FooterComponent,
+    AppComponent,FooterComponent, 
     
   
    // Add other components that belong to this module here
@@ -38,7 +40,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     
     
   ],
-  providers: [ DataService,UserBookingStatusService],
+  providers: [ DataService,UserBookingStatusService,adminBookingService],
   bootstrap: [AppComponent]
   
 })

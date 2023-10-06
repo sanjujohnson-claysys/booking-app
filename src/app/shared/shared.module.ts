@@ -11,8 +11,11 @@ import { GraphComponent } from './graph/graph.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { AdminBookingComponent } from './admin-booking/admin-booking.component';
+import { adminBookingService } from '../admin-booking.service';
+
 @NgModule({
-  declarations: [BookingComponent, BookingDetailsComponent, GraphComponent], 
+  declarations: [BookingComponent, BookingDetailsComponent, GraphComponent,AdminBookingComponent], 
   imports: [
     CommonModule,
     FormsModule,
@@ -22,7 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule 
    
   ],
-  providers: [DataService,AuthService,GraphDataService], // Include BookingDataService in the providers array
-  exports: [BookingComponent, BookingDetailsComponent,GraphComponent]
+  providers: [DataService,AuthService,GraphDataService,adminBookingService], // Include BookingDataService in the providers array
+  exports: [BookingComponent, BookingDetailsComponent,GraphComponent,AdminBookingComponent]
 })
 export class SharedModule { }
