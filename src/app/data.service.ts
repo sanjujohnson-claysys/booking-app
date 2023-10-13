@@ -13,21 +13,18 @@ export class DataService {
     const url = 'https://localhost:7036/api/bookingdetails/19';
     return this.http.get(url);
   }
-   postBookingDetails(data: JSON): Observable<any> {
+  postBookingDetails(data: any): Observable<any> {
     const url = 'https://localhost:7036/api/bookingdetails';
-    console.log(data)
+    console.log(data);
     return this.http.post(url, data);
-    
   }
 
   getEmployees(): Observable<any> {
     const url = 'https://localhost:7036/api/employees';
     return this.http.get(url);
   }
-   postEmployees(data: any): Observable<any> {
+  postEmployees(data: any): Observable<any> {
     const url = 'https://localhost:7036/api/employees';
     return this.http.post(url, data);
   }
-  
 }
-

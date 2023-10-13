@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http'; // Import HttpClientMod
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { AdminBookingComponent } from './admin-booking/admin-booking.component';
 import { adminBookingService } from '../admin-booking.service';
+import { AdminActionsService } from '../admin-actions.service';
 
 @NgModule({
   declarations: [BookingComponent, BookingDetailsComponent, GraphComponent,AdminBookingComponent], 
@@ -25,7 +26,7 @@ import { adminBookingService } from '../admin-booking.service';
     BrowserAnimationsModule 
    
   ],
-  providers: [DataService,AuthService,GraphDataService,adminBookingService], // Include BookingDataService in the providers array
+  providers: [DataService,AuthService,GraphDataService,adminBookingService,AdminActionsService], // Include BookingDataService in the providers array
   exports: [BookingComponent, BookingDetailsComponent,GraphComponent,AdminBookingComponent]
 })
 export class SharedModule { }

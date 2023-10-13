@@ -2,7 +2,16 @@ import { Component } from '@angular/core';
 import { DataService } from 'src/app/data.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserBookingStatusService } from 'src/app/user-booking-status.service';
-
+import { AdminActionsService } from 'src/app//admin-actions.service';
+interface BookingData {
+  date: string;
+  time: string;
+  room: string;
+  status: string;
+  employeeId: number;
+  BookedWorkspace: number;
+  // Add any other properties specific to the data you want to send
+}
 
 class Room {
   code: string = 'A';
@@ -18,35 +27,53 @@ class Room {
 }
 
 class Workspace {
-  isTaken: boolean = false;
-  isFree: boolean = true;
-  isSelected: boolean = false;
-  isBooked: boolean = false;
-  userId: string = "-1";
-  row: number = -1;
-  column: number = -1;
-  room: Room["code"] | undefined;
-  time: string | undefined;
+  // Unique identifier for the workspace, you can use row and column
+  row: number;
+  column: number;
+
+  // Status properties
+  isTaken: boolean = false; // Indicates if the workspace is currently occupied
+  isBooked: boolean = false; // Indicates if the workspace is booked for a future reservation
+  isSelected: boolean = false; // Indicates if the workspace is selected
+  isFree: boolean = true; // Indicates if the workspace is available for use
+
+  // User information
+  userId: string | undefined; // If the workspace is taken, store the user's ID here
+
+  // Room information
+  roomCode: string | undefined; // Store the room code where the workspace is located
+  BookedWorkspace: number | undefined;
+
+  constructor(row: number, column: number) {
+    this.row = row;
+    this.column = column;
+  }
 }
 
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.css']
+  styleUrls: ['./booking.component.css'],
 })
 export class BookingComponent {
-
-  selectedTime: string = ""; // Initialize as null
+  selectedTime: string = ''; // Initialize as null
   selectedRoom: string = ''; // Initialize with 'A' by default
 
-  workspaceStatus: { row: number, col: number, status: string, bookedBy: string }[] = [];
-  selectedWorkspace: { row: number, col: number } | null = null;
+  workspaceStatus: {
+    row: number;
+    col: number;
+    status: string;
+    bookedBy: string;
+  }[] = [];
+  selectedWorkspace!: { row: number; col: number };
 
   room: Room = new Room();
-  workspace: Workspace = new Workspace();
-  randomNumber = (Math.floor(Math.random() * 30) + 1);
-  selectedDate: string = Date();
+
+  randomNumber = Math.floor(Math.random() * 30) + 1;
+  selectedDate: string = new Date().toISOString().split('T')[0];
+
   currentDate: string;
+  employeeId: number = 22;
   // maxDate: string;
 
   // Define form controls using FormBuilder
@@ -60,46 +87,51 @@ export class BookingComponent {
     time: this.timeControl,
     room: this.roomControl,
   });
- 
-  constructor(private sendData: DataService, private fb: FormBuilder, private  bookingService: UserBookingStatusService) {
+
+  constructor(
+    private sendData: DataService,
+    private fb: FormBuilder,
+    private bookingService: UserBookingStatusService,
+    private adminService: AdminActionsService
+  ) {
     const today = new Date();
     this.currentDate = this.formatDate(today);
     const maxDate = new Date(today);
     maxDate.setDate(today.getDate() + 7);
+
     // this.maxDate = this.formatDate(maxDate);
-    
-    console.log("constructor inside"+this.selectedDate)
+
+    console.log('constructor inside' + this.selectedDate);
     this.initializeWorkspaceStatus();
   }
-  
+  isAdmin: Boolean = true;
   bookingData: any[] = [];
   loading = false;
   error = '';
-ngOnInit(): void {
-this.searchWorkspace();
-}
-
-findWorkspace(squareNumber: number): Workspace {
-  if (squareNumber < 1 || squareNumber > 25) {
-    throw new Error('Square number must be between 1 and 25');
+  ngOnInit(): void {
+    this.searchWorkspace();
   }
 
-  // Calculate the row and column values (1-based)
-  const row = Math.floor((squareNumber - 1) / 5) + 1;
-  const col = (squareNumber - 1) % 5 + 1;
-  const workspace = this.room.workspaces[row - 1][col - 1]; // Adjust indices to be 0-based
+  findWorkspace(squareNumber: number): Workspace {
+    if (squareNumber < 1 || squareNumber > 25) {
+      throw new Error('Square number must be between 1 and 25');
+    }
 
-  return workspace;
-} 
+    // Calculate the row and column values (1-based)
+    const row = Math.floor((squareNumber - 1) / 5) + 1;
+    const col = ((squareNumber - 1) % 5) + 1;
+    const workspace = this.room.workspaces[row - 1][col - 1]; // Adjust indices to be 0-based
 
- // Function to disable Sundays and dates beyond 7 days from the current day
+    return workspace;
+  }
+
+  // Function to disable Sundays and dates beyond 7 days from the current day
   get minDate(): string {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0); // Set current time to midnight
 
     return currentDate.toISOString().split('T')[0]; // Convert to ISO format (yyyy-mm-dd)
   }
-  
 
   get maxDate(): string {
     const currentDate = new Date();
@@ -117,121 +149,152 @@ findWorkspace(squareNumber: number): Workspace {
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-    initializeWorkspaceStatus() {
+  initializeWorkspaceStatus() {
     for (let row = 0; row < this.room.rows.length; row++) {
       this.room.workspaces[row] = [];
       for (let col = 0; col < this.room.cols.length; col++) {
-        this.room.workspaces[row][col] = new Workspace();
-
+        this.room.workspaces[row][col] = new Workspace(row, col); // Pass row and col values
       }
     }
   }
-  
+
   // Modify the bookWorkspace method to book one square at a time and unbook the rest
   bookWorkspace(row: number, col: number, userId: string): void {
     const selectedWorkspace = this.room.workspaces[row][col];
 
-    if (!selectedWorkspace.isTaken) {
-      // Unbook all other workspaces
-      this.unbookAllWorkspaces();
+    if (this.isWorkspaceAvailable(selectedWorkspace)) {
+      this.unbookPreviouslySelectedWorkspace(userId);
+      this.bookSelectedWorkspace(selectedWorkspace, userId);
 
-      // Book the selected workspace
-      selectedWorkspace.isTaken = true;
-      selectedWorkspace.isFree = false;
-      selectedWorkspace.isSelected = true;
-      selectedWorkspace.userId = userId;
-      selectedWorkspace.row = row;
-      selectedWorkspace.column = col;
-
-      // this.sendBookingData(selectedWorkspace)
-    } else if (selectedWorkspace.userId === userId) {
-      // Unbook the selected workspace if it's already booked by the same user
-      selectedWorkspace.isTaken = false;
-      selectedWorkspace.isFree = true;
-      selectedWorkspace.isSelected = false;
-      selectedWorkspace.userId = '';
+      // Calculate the booked workspace number and assign it to selectedWorkspace.BookedWorkspace
+      const bookedWorkspaceNumber = this.room.getCellNumber(row, col);
+      selectedWorkspace.BookedWorkspace = bookedWorkspaceNumber;
+    } else if (this.isWorkspaceSelectedByUser(selectedWorkspace, userId)) {
+      this.unbookSelectedWorkspace(selectedWorkspace);
     }
-
   }
-  
-  sendBookingData(selectedWorkspace: any): void {
-    selectedWorkspace.date = this.selectedDate;
-    selectedWorkspace.time = this.selectedTime;
-    selectedWorkspace.room = this.selectedRoom;
-    this.sendData.postBookingDetails(selectedWorkspace);
+
+  isWorkspaceAvailable(workspace: Workspace): boolean {
+    return !workspace.isTaken && workspace.isFree;
   }
-  
 
-  
+  isWorkspaceSelectedByUser(workspace: Workspace, userId: string): boolean {
+    return workspace.userId === userId;
+  }
 
-  // Helper method to unbook all workspaces
-  unbookAllWorkspaces(): void {
+  unbookSelectedWorkspace(workspace: Workspace): void {
+    workspace.isTaken = false;
+    workspace.isSelected = false;
+    workspace.userId = '';
+  }
+
+  bookSelectedWorkspace(workspace: Workspace, userId: string): void {
+    // Ensure that the workspace is free before booking it
+    if (workspace.isFree) {
+      workspace.isTaken = true;
+      workspace.isSelected = true;
+      workspace.userId = userId;
+    }
+  }
+
+  // Helper method to unbook the previously selected workspace by the user
+  unbookPreviouslySelectedWorkspace(userId: string): void {
     for (let row = 0; row < this.room.rows.length; row++) {
       for (let col = 0; col < this.room.cols.length; col++) {
         const workspace = this.room.workspaces[row][col];
-        workspace.isTaken = false;
-        workspace.isFree = true;
-        workspace.isSelected = false;
-        workspace.userId = '';
+        if (workspace.isSelected && workspace.userId === userId) {
+          workspace.isTaken = false;
+          workspace.isSelected = false;
+          workspace.userId = '';
+        }
       }
-    } 
-  } 
-
-  BookWorkspace() {
-    if (this.form.valid) {
-      // Form is valid, you can access form values using this.form.value
-      console.log('Form submitted with values:', this.form.value);
-    } else {
-      // Form is invalid, handle errors or show validation messages
-      console.log('Form is invalid. Please check the fields.');
     }
   }
+
+  sendBookingData(): void {
+    const workspaceData: BookingData = {
+      date: this.selectedDate,
+      time: this.selectedTime,
+      room: this.selectedRoom,
+      status: 'Booked',
+      employeeId: this.employeeId,
+      BookedWorkspace: this.room.getCellNumber(
+        this.selectedWorkspace?.row,
+        this.selectedWorkspace?.col
+      ),
+    };
+    console.log(workspaceData);
+    this.sendData.postBookingDetails(workspaceData);
+  }
+
+  BookWorkspace() {
+    // Form is valid, you can access form values using this.form.value
+    console.log('Button working');
+  }
   searchWorkspace(): void {
-  this.loading = true;
-  this.bookingService.getBookingData(new Date(), 'Morning', 'A',24)
-    .subscribe({
-      next: (data: any[]) => {
-        this.bookingData = data;
-        this.loading = false;
+    this.loading = true;
+    this.bookingService
+      .getBookingData(
+        this.selectedDate,
+        (this.selectedTime = 'morning'),
+        (this.selectedRoom = 'A'),
+        (this.employeeId = 22)
+      )
+      .subscribe({
+        next: (data: any[]) => {
+          this.bookingData = data;
+          this.loading = false;
 
-        // Assuming data is an array of workspace objects
-        data.forEach((workspaceObj: any) => {
-          const workspaceNumber = workspaceObj.workspace.trim();
-          const workspace = this.findWorkspace(workspaceNumber); // Use 'this' to invoke the method
+          // Assuming data is an array of workspace objects
+          data.forEach((workspaceObj: any) => {
+            const workspaceNumber = workspaceObj.workspace.trim();
+            const workspace = this.findWorkspace(workspaceNumber); // Use 'this' to invoke the method
 
-          if (workspace) {
-            workspace.isTaken = workspaceObj.status === 'taken';
-            workspace.isFree = !(workspace.isTaken ||workspace.isBooked);
-            workspace.isSelected = workspaceObj.status === 'booked'; // Fix the assignment here
-           
-            workspace.isTaken =!workspace.isSelected
-            console.log(workspace);
-          }
-        });
-      },
-      error: (error: any) => {
-        this.error = 'An error occurred while fetching data.';
-        this.loading = false;
-        console.log(error);
-      }
-    });
-}
-  
-    // dateChanged() {
+            if (workspace) {
+              workspace.isTaken = workspaceObj.status === 'taken';
+              workspace.isFree = !(workspace.isTaken || workspace.isBooked);
+              workspace.isSelected = workspaceObj.status === 'booked'; // Fix the assignment here
+
+              workspace.isTaken = !workspace.isSelected;
+              console.log(workspace);
+            }
+          });
+        },
+        error: (error: any) => {
+          this.error = 'An error occurred while fetching data.';
+          this.loading = false;
+          console.log(error);
+        },
+      });
+  }
+  //  onSubmit() {
+  //     this.adminService
+  //       .cancelBookingAndMarkUnavailable(this.bookingId, [this.workspaceNumber])
+  //       .subscribe(
+  //         (response) => {
+  //           this.message = 'Bookings canceled and workspaces marked as unavailable.';
+  //         },
+  //         (error) => {
+  //           this.message = 'An error occurred: ' + error.message;
+  //         }
+  //       );
+  //   }
+
+  // dateChanged() {
   //   // Handle date change here
   //   console.log('Selected date:', this.selectedDate);
   // }
 
-//  disableSundays():void {
-//   console.log(this.selectedDate)
-//   const selectedDate = new Date(this.selectedDate);
-//   const isSunday = this.isSunday(selectedDate);
-//   console.log(isSunday)
-//   if (isSunday) {
-//     console.log(selectedDate)
-//     this.selectedDate="" 
-//   } 
-// }
+  //  disableSundays():void {
+  //   console.log(this.selectedDate)
+  //   const selectedDate = new Date(this.selectedDate);
+  //   const isSunday = this.isSunday(selectedDate);
+  //   console.log(isSunday)
+  //   if (isSunday) {
+  //     console.log(selectedDate)
+  //     this.selectedDate=""
+  //   }
+  // }
   // isDateValid(selectedDate: Date): boolean {
   //   const currentDate = new Date();
   //   const oneWeekFromNow = new Date(currentDate);
@@ -243,6 +306,6 @@ findWorkspace(squareNumber: number): Workspace {
   // isSunday(selectedDate: Date): boolean {
   //   console.log("isSunday method return: "+selectedDate.getDay())
   //   return selectedDate.getDay() === 0; // Sunday corresponds to day 0
-    
+
   // }
 }

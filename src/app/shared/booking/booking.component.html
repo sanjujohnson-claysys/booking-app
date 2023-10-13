@@ -5,6 +5,17 @@
   <div class="row mb-3">
     <div class="col-md-4">
       <div class="form-group">
+        <div class="col-md-4" *ngIf="isAdmin">
+          <div class="form-group">
+            <label for="employeeId">Employee ID:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="employeeId"
+              [(ngModel)]="employeeId"
+            />
+          </div>
+        </div>
         <label for="datePicker">Select Date:</label>
         <input
           type="date"
@@ -29,6 +40,7 @@
           class="form-control"
           id="timeSelect"
           [formControl]="timeControl"
+          [(ngModel)]="selectedTime"
         >
           <option value="">--- select ---</option>
           <option value="morning">Morning</option>
@@ -47,6 +59,7 @@
           class="form-control"
           id="roomSelect"
           [formControl]="roomControl"
+          [(ngModel)]="selectedRoom"
         >
           <option value="">--- select ---</option>
           <option value="A">Room A</option>
@@ -104,7 +117,7 @@
       </div>
     </div>
     <!-- my-button.component.html -->
-    <button class="centered-button" (click)="BookWorkspace()">
+    <button class="centered-button" (click)="sendBookingData()">
       Book workspace
     </button>
   </div>

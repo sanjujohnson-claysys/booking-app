@@ -11,10 +11,10 @@ export class UserBookingStatusService {
 
   constructor(private http: HttpClient) { }
 
-  getBookingData(bookingDate: Date, bookingTime: string, bookedRoom: string, employeeId?: number): Observable<any[]> {
+  getBookingData(bookingDate: string, bookingTime: string, bookedRoom: string, employeeId?: number): Observable<any[]> {
     // Create query parameters
     let params = new HttpParams()
-      .set('bookingDate', bookingDate.toISOString())
+      .set('bookingDate', bookingDate.toString())
       .set('bookingTime', bookingTime)
       .set('bookedRoom', bookedRoom);
 
