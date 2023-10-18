@@ -3,13 +3,16 @@ import { DataService } from 'src/app/data.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserBookingStatusService } from 'src/app/user-booking-status.service';
 import { AdminActionsService } from 'src/app//admin-actions.service';
+import { MarkUnavailable } from '../mark-unavailable';
+import { MarkWorkspaceUnavailableService } from '../mark-workspace-unavailable.service';
 interface BookingData {
-  date: string;
-  time: string;
-  room: string;
-  status: string;
-  employeeId: number;
-  BookedWorkspace: number;
+  BookingDate: string;
+  BookingTime: string;
+  BookedRoom: string;
+  Status: string;
+  EmployeeId: number;
+  EmployeeName: string; // Change the data type to number
+  BookedWorkspace: string; // Change the data type to string
   // Add any other properties specific to the data you want to send
 }
 
@@ -36,7 +39,7 @@ class Workspace {
   isBooked: boolean = false; // Indicates if the workspace is booked for a future reservation
   isSelected: boolean = false; // Indicates if the workspace is selected
   isFree: boolean = true; // Indicates if the workspace is available for use
-
+  isUnavailable: boolean = false;
   // User information
   userId: string | undefined; // If the workspace is taken, store the user's ID here
 
@@ -65,7 +68,7 @@ export class BookingComponent {
     status: string;
     bookedBy: string;
   }[] = [];
-  selectedWorkspace!: { row: number; col: number };
+  selectedWorkspace!: number;
 
   room: Room = new Room();
 
@@ -92,7 +95,8 @@ export class BookingComponent {
     private sendData: DataService,
     private fb: FormBuilder,
     private bookingService: UserBookingStatusService,
-    private adminService: AdminActionsService
+    private adminService: AdminActionsService,
+    private unavailable: MarkWorkspaceUnavailableService
   ) {
     const today = new Date();
     this.currentDate = this.formatDate(today);
@@ -108,6 +112,7 @@ export class BookingComponent {
   bookingData: any[] = [];
   loading = false;
   error = '';
+  isMarkUnavailable: Boolean = false;
   ngOnInit(): void {
     this.searchWorkspace();
   }
@@ -169,6 +174,7 @@ export class BookingComponent {
       // Calculate the booked workspace number and assign it to selectedWorkspace.BookedWorkspace
       const bookedWorkspaceNumber = this.room.getCellNumber(row, col);
       selectedWorkspace.BookedWorkspace = bookedWorkspaceNumber;
+      this.selectedWorkspace = bookedWorkspaceNumber;
     } else if (this.isWorkspaceSelectedByUser(selectedWorkspace, userId)) {
       this.unbookSelectedWorkspace(selectedWorkspace);
     }
@@ -213,18 +219,29 @@ export class BookingComponent {
 
   sendBookingData(): void {
     const workspaceData: BookingData = {
-      date: this.selectedDate,
-      time: this.selectedTime,
-      room: this.selectedRoom,
-      status: 'Booked',
-      employeeId: this.employeeId,
-      BookedWorkspace: this.room.getCellNumber(
-        this.selectedWorkspace?.row,
-        this.selectedWorkspace?.col
-      ),
+      BookingDate: this.selectedDate,
+      BookingTime: this.selectedTime,
+      BookedRoom: this.selectedRoom,
+      BookedWorkspace: this.selectedWorkspace.toString(), // Convert to string
+      EmployeeId: this.employeeId, // No need to convert to string
+      EmployeeName: 'tobechanged',
+      Status: 'Booked',
     };
+
     console.log(workspaceData);
-    this.sendData.postBookingDetails(workspaceData);
+
+    this.sendData.postBookingDetails(workspaceData).subscribe(
+      (response) => {
+        // Handle the successful response here
+        console.log('Post request successful', response);
+        // You can perform further actions after a successful request.
+      },
+      (error) => {
+        // Handle errors here
+        console.error('Error in post request', error);
+        // You can handle and display the error to the user.
+      }
+    );
   }
 
   BookWorkspace() {
@@ -267,6 +284,65 @@ export class BookingComponent {
         },
       });
   }
+
+  markSelectedWorkspacesUnavailable(): void {
+    const selectedWorkspaceIds: number[] = [];
+
+    for (let row = 0; row < this.room.rows.length; row++) {
+      for (let col = 0; col < this.room.cols.length; col++) {
+        const workspace = this.room.workspaces[row][col];
+        if (workspace.isSelected) {
+          selectedWorkspaceIds.push(this.room.getCellNumber(row, col)); // Assuming you have a unique identifier for each workspace.
+        }
+      }
+    }
+
+    if (selectedWorkspaceIds.length > 0) {
+      const UnavailableWorkSpaces: MarkUnavailable = {
+        bookingDate: this.selectedDate,
+        bookingTime: this.selectedTime,
+        bookedRoom: this.selectedRoom,
+        markUnavailable: selectedWorkspaceIds,
+      };
+
+      // Send the 'UnavailableWorkSpaces' to the backend using the service
+      this.unavailable.markUnavailable(UnavailableWorkSpaces).subscribe(
+        (response) => {
+          // Handle the API response, if needed
+          console.log('Workspaces marked as unavailable:', response);
+        },
+        (error) => {
+          // Handle errors, if any
+          console.error('Error marking workspaces as unavailable:', error);
+        }
+      );
+    } else {
+      alert('Please select at least one workspace to mark as unavailable.');
+    }
+  }
+
+  toggleWorkspaceSelection(row: number, col: number): void {
+    const selectedWorkspace = this.room.workspaces[row][col];
+    selectedWorkspace.isSelected = !selectedWorkspace.isSelected;
+  }
+
+  sendSelectedWorkspacesToBackend(selectedWorkspaceIds: number[]): void {
+    // Send the 'selectedWorkspaceIds' list to the backend using Angular's HTTP client.
+    // You can structure the data as needed for your backend API.
+    // this.sendData.postSelectedWorkspaces(selectedWorkspaceIds).subscribe(
+    //   (response) => {
+    //     // Handle the successful response here
+    //     console.log('Post request successful', response);
+    //     // You can perform further actions after a successful request.
+    //   },
+    //   (error) => {
+    //     // Handle errors here
+    //     console.error('Error in post request', error);
+    //     // You can handle and display the error to the user.
+    //   }
+    // );
+  }
+
   //  onSubmit() {
   //     this.adminService
   //       .cancelBookingAndMarkUnavailable(this.bookingId, [this.workspaceNumber])

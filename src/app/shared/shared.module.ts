@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookingComponent } from '../shared/booking/booking.component';
+import { BookingComponent } from './booking/booking.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { BookingDetailsComponent } from './booking-details/booking-details.component';
@@ -10,23 +10,46 @@ import { AuthService } from '../auth.service';
 import { GraphComponent } from './graph/graph.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminBookingComponent } from './admin-booking/admin-booking.component';
 import { adminBookingService } from '../admin-booking.service';
 import { AdminActionsService } from '../admin-actions.service';
+import { BookingListComponent } from './booking-list/booking-list.component';
+import { BookingCancellationComponent } from './booking-cancellation/booking-cancellation.component';
+import { BookingDetailsByIdComponent } from './booking-details-by-id/booking-details-by-id.component';
 
 @NgModule({
-  declarations: [BookingComponent, BookingDetailsComponent, GraphComponent,AdminBookingComponent], 
+  declarations: [
+    BookingComponent,
+    BookingDetailsComponent,
+    GraphComponent,
+    AdminBookingComponent,
+    BookingListComponent,
+    BookingCancellationComponent,
+    BookingDetailsByIdComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     NgxChartsModule,
-    BrowserAnimationsModule 
-   
+    BrowserAnimationsModule,
   ],
-  providers: [DataService,AuthService,GraphDataService,adminBookingService,AdminActionsService], // Include BookingDataService in the providers array
-  exports: [BookingComponent, BookingDetailsComponent,GraphComponent,AdminBookingComponent]
+  providers: [
+    DataService,
+    AuthService,
+    GraphDataService,
+    adminBookingService,
+    AdminActionsService,
+  ], // Include BookingDataService in the providers array
+  exports: [
+    BookingComponent,
+    BookingDetailsComponent,
+    GraphComponent,
+    AdminBookingComponent,
+    BookingCancellationComponent,
+    BookingDetailsByIdComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

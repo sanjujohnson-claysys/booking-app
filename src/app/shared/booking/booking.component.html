@@ -103,10 +103,13 @@
                 [ngClass]="{
                   free: room.workspaces[rowIndex][colIndex].isFree,
                   taken: room.workspaces[rowIndex][colIndex].isTaken,
-                  selected: room.workspaces[rowIndex][colIndex].isSelected
+                  selected: room.workspaces[rowIndex][colIndex].isSelected,
+                  unavailable: room.workspaces[rowIndex][colIndex].isUnavailable
                 }"
                 (click)="
-                  bookWorkspace(rowIndex, colIndex, randomNumber.toString())
+                  isAdmin && isMarkUnavailable
+                    ? toggleWorkspaceSelection(rowIndex, colIndex)
+                    : bookWorkspace(rowIndex, colIndex, randomNumber.toString())
                 "
               >
                 {{ room.getCellNumber(rowIndex, colIndex) }}
@@ -117,8 +120,15 @@
       </div>
     </div>
     <!-- my-button.component.html -->
-    <button class="centered-button" (click)="sendBookingData()">
-      Book workspace
+    <button
+      class="centered-button"
+      (click)="
+        isAdmin && isMarkUnavailable
+          ? markSelectedWorkspacesUnavailable()
+          : sendBookingData()
+      "
+    >
+      {{ isAdmin && isMarkUnavailable ? "Mark Unavailable" : "Book workspace" }}
     </button>
   </div>
   <!-- Example of using BookingDetailsComponent -->

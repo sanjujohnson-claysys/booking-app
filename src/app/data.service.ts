@@ -10,7 +10,7 @@ export class DataService {
 
   // Define methods to fetch data from different endpoints
   getBookingDetails(): Observable<any> {
-    const url = 'https://localhost:7036/api/bookingdetails/19';
+    const url = 'https://localhost:7036/api/bookingdetails/2';
     return this.http.get(url);
   }
   postBookingDetails(data: any): Observable<any> {
@@ -26,5 +26,9 @@ export class DataService {
   postEmployees(data: any): Observable<any> {
     const url = 'https://localhost:7036/api/employees';
     return this.http.post(url, data);
+  }
+  getBookingsByEmployeeAndStatus(employeeId: number): Observable<any> {
+    const url = `https://localhost:7036/api/bookingdetails/get-by-employee-and-status/${employeeId}`;
+    return this.http.get(url);
   }
 }
