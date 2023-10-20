@@ -16,6 +16,19 @@
             />
           </div>
         </div>
+        <div>
+          <h1>Select User ID</h1>
+          <select [(ngModel)]="selectedId">
+            <option *ngFor="let item of employees" [value]="item.id">
+              {{ item.id }}
+            </option>
+          </select>
+        </div>
+
+        <div *ngIf="selectedId">
+          <p>Selected Name: {{ getNameById(selectedId) }}</p>
+        </div>
+
         <label for="datePicker">Select Date:</label>
         <input
           type="date"
@@ -28,6 +41,7 @@
         />
 
         <!-- Error message for required validation -->
+
         <div *ngIf="dateControl.hasError('required')" class="text-danger">
           Date is required.
         </div>

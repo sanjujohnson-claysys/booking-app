@@ -5,6 +5,8 @@ import { UserBookingStatusService } from 'src/app/user-booking-status.service';
 import { AdminActionsService } from 'src/app//admin-actions.service';
 import { MarkUnavailable } from '../mark-unavailable';
 import { MarkWorkspaceUnavailableService } from '../mark-workspace-unavailable.service';
+import { FetchEmployeeIdsService } from 'src/app//fetch-employee-ids.service';
+
 interface BookingData {
   BookingDate: string;
   BookingTime: string;
@@ -96,7 +98,8 @@ export class BookingComponent {
     private fb: FormBuilder,
     private bookingService: UserBookingStatusService,
     private adminService: AdminActionsService,
-    private unavailable: MarkWorkspaceUnavailableService
+    private unavailable: MarkWorkspaceUnavailableService,
+    private fetchidsandnames: FetchEmployeeIdsService
   ) {
     const today = new Date();
     this.currentDate = this.formatDate(today);
@@ -115,6 +118,7 @@ export class BookingComponent {
   isMarkUnavailable: Boolean = false;
   ngOnInit(): void {
     this.searchWorkspace();
+    this.fetchEmployees();
   }
 
   findWorkspace(squareNumber: number): Workspace {
@@ -324,6 +328,25 @@ export class BookingComponent {
   toggleWorkspaceSelection(row: number, col: number): void {
     const selectedWorkspace = this.room.workspaces[row][col];
     selectedWorkspace.isSelected = !selectedWorkspace.isSelected;
+  }
+  employees: any[] | undefined;
+  selectedId?: number;
+
+  fetchEmployees() {
+    this.fetchidsandnames.getEmployees().subscribe((data) => {
+      this.employees = data;
+      console.log(this.employees);
+    });
+  }
+
+  getNameById(id: string | number): string {
+    // Convert the `id` to a number if it's a string
+    const idNumber = typeof id === 'string' ? parseInt(id, 10) : id;
+
+    // Find the user by the numeric `idNumber`
+    const user = this.employees?.find((item) => item.id === idNumber);
+
+    return user ? user.fullName.trim() : '';
   }
 
   sendSelectedWorkspacesToBackend(selectedWorkspaceIds: number[]): void {
