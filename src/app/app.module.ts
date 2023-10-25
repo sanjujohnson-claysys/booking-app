@@ -13,19 +13,21 @@ import { FooterComponent } from './footer/footer.component';
 import { UserBookingStatusService } from 'src/app/user-booking-status.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { adminBookingService } from './admin-booking.service';
+import { RouterModule, Routes } from '@angular/router';
 
+// import { AdminActionsComponent } from './admin/admin-actions/admin-actions.component';
 
-
-
-
-
-
+// import { AdminRoutingModule } from './admin/admin.module';
+// const appRoutes: Routes = [
+//   // { path: 'admin', component: AdminActionsComponent },
+//   // Add more routes for your components here
+// ];
 @NgModule({
   declarations: [
-    AppComponent,FooterComponent, 
-    
-  
-   // Add other components that belong to this module here
+    AppComponent,
+    FooterComponent,
+
+    // Add other components that belong to this module here
   ],
   imports: [
     BrowserModule,
@@ -34,15 +36,14 @@ import { adminBookingService } from './admin-booking.service';
     SharedModule,
     UserModule,
     HttpClientModule,
-   HomeModule,
+    HomeModule,
     HomeRoutingModule,
-    ReactiveFormsModule
-    
-    
-  ],
-  providers: [ DataService,UserBookingStatusService,adminBookingService],
-  bootstrap: [AppComponent]
-  
-})
-export class AppModule { }
+    ReactiveFormsModule,
 
+    RouterModule,
+    // AdminRoutingModule,
+  ],
+  providers: [DataService, UserBookingStatusService, adminBookingService],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}

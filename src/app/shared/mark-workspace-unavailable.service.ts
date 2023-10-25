@@ -8,6 +8,7 @@ import { MarkUnavailable } from './mark-unavailable';
 })
 export class MarkWorkspaceUnavailableService {
   private apiUrl = 'https://localhost:7036/api/AdminActions/MarkUnavailable';
+  private apiBaseUrl = 'https://localhost:7036';
 
   constructor(private http: HttpClient) {}
 
@@ -19,5 +20,11 @@ export class MarkWorkspaceUnavailableService {
     };
 
     return this.http.post(this.apiUrl, data, httpOptions);
+  }
+  cancelBooking(cancelBookingData: any): Observable<any> {
+    return this.http.post(
+      `${this.apiBaseUrl}/api/Cancel/CancelBooking`,
+      cancelBookingData
+    );
   }
 }

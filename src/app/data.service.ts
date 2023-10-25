@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
 })
 export class DataService {
   constructor(private http: HttpClient) {}
-
+  baseUrl = 'https://localhost:7036/api';
   // Define methods to fetch data from different endpoints
   getBookingDetails(): Observable<any> {
-    const url = 'https://localhost:7036/api/bookingdetails/2';
+    const url = 'https://localhost:7036/api/bookingdetails/66';
     return this.http.get(url);
   }
   postBookingDetails(data: any): Observable<any> {
@@ -30,5 +30,10 @@ export class DataService {
   getBookingsByEmployeeAndStatus(employeeId: number): Observable<any> {
     const url = `https://localhost:7036/api/bookingdetails/get-by-employee-and-status/${employeeId}`;
     return this.http.get(url);
+  }
+  getBookingDetailsForUserByFilter(params: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/GetUpdatedBookingDetails`, {
+      params,
+    });
   }
 }

@@ -1,0 +1,69 @@
+<div>
+  <h2>Booking Details</h2>
+  <form [formGroup]="bookingForm" (ngSubmit)="searchBookings()">
+    <div class="form-group">
+      <label for="startDate">Start Date</label>
+      <input type="date" formControlName="startDate" id="startDate" />
+    </div>
+    <div class="form-group">
+      <label for="endDate">End Date</label>
+      <input type="date" formControlName="endDate" id="endDate" />
+    </div>
+    <div class="form-group">
+      <label for="roomFilter">Room Filter</label>
+      <input type="text" formControlName="roomFilter" id="roomFilter" />
+    </div>
+    <div class="form-group">
+      <label for="workspaceFilter">Workspace Filter</label>
+      <input
+        type="text"
+        formControlName="workspaceFilter"
+        id="workspaceFilter"
+      />
+    </div>
+    <div class="form-group">
+      <label for="employeeIdFilter">Employee ID Filter</label>
+      <input
+        type="number"
+        formControlName="employeeIdFilter"
+        id="employeeIdFilter"
+      />
+    </div>
+    <div class="form-group">
+      <label for="bookingTimeFilter">Booking Time Filter</label>
+      <input
+        type="text"
+        formControlName="bookingTimeFilter"
+        id="bookingTimeFilter"
+      />
+    </div>
+    <div class="form-group">
+      <label for="statusFilter">Status Filter</label>
+      <input type="text" formControlName="statusFilter" id="statusFilter" />
+    </div>
+    <button type="submit">Search</button>
+  </form>
+
+  <table *ngIf="bookings">
+    <thead>
+      <tr>
+        <th>Booking Date</th>
+        <th>Booking Time</th>
+        <th>Booked Room</th>
+        <th>Booked Workspace</th>
+        <th>Employee ID</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of bookings">
+        <td>{{ booking.bookingDate }}</td>
+        <td>{{ booking.bookingTime }}</td>
+        <td>{{ booking.bookedRoom }}</td>
+        <td>{{ booking.bookedWorkspace }}</td>
+        <td>{{ booking.employeeId }}</td>
+        <td>{{ booking.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

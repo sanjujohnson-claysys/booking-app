@@ -78,7 +78,7 @@ export class BookingComponent {
   selectedDate: string = new Date().toISOString().split('T')[0];
 
   currentDate: string;
-  employeeId: number = 22;
+  // employeeId: number = 22;
   // maxDate: string;
 
   // Define form controls using FormBuilder
@@ -227,7 +227,7 @@ export class BookingComponent {
       BookingTime: this.selectedTime,
       BookedRoom: this.selectedRoom,
       BookedWorkspace: this.selectedWorkspace.toString(), // Convert to string
-      EmployeeId: this.employeeId, // No need to convert to string
+      EmployeeId: this.selectedId, // No need to convert to string
       EmployeeName: 'tobechanged',
       Status: 'Booked',
     };
@@ -259,7 +259,7 @@ export class BookingComponent {
         this.selectedDate,
         (this.selectedTime = 'morning'),
         (this.selectedRoom = 'A'),
-        (this.employeeId = 22)
+        this.selectedId
       )
       .subscribe({
         next: (data: any[]) => {
@@ -288,6 +288,19 @@ export class BookingComponent {
         },
       });
   }
+  // TODO:
+  // cancelBooking() {
+  //   this.unavailable.cancelBooking(this.cancelBookingData).subscribe(
+  //     (response: any) => {
+  //       console.log('Booking Cancelled:', response);
+  //       // Handle success response, e.g., display a success message.
+  //     },
+  //     (error: any) => {
+  //       console.error('Error cancelling booking:', error);
+  //       // Handle error, e.g., display an error message.
+  //     }
+  //   );
+  // }
 
   markSelectedWorkspacesUnavailable(): void {
     const selectedWorkspaceIds: number[] = [];
@@ -330,7 +343,7 @@ export class BookingComponent {
     selectedWorkspace.isSelected = !selectedWorkspace.isSelected;
   }
   employees: any[] | undefined;
-  selectedId?: number;
+  selectedId: number = -1;
 
   fetchEmployees() {
     this.fetchidsandnames.getEmployees().subscribe((data) => {
