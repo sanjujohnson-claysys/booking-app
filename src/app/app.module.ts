@@ -14,14 +14,8 @@ import { UserBookingStatusService } from 'src/app/user-booking-status.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { adminBookingService } from './admin-booking.service';
 import { RouterModule, Routes } from '@angular/router';
+import { UserRoutingModule } from './user/user-routing/user-routing.module';
 
-// import { AdminActionsComponent } from './admin/admin-actions/admin-actions.component';
-
-// import { AdminRoutingModule } from './admin/admin.module';
-// const appRoutes: Routes = [
-//   // { path: 'admin', component: AdminActionsComponent },
-//   // Add more routes for your components here
-// ];
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +33,7 @@ import { RouterModule, Routes } from '@angular/router';
     HomeModule,
     HomeRoutingModule,
     ReactiveFormsModule,
-
+    UserRoutingModule,
     RouterModule,
     // AdminRoutingModule,
   ],

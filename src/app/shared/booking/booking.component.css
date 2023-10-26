@@ -78,12 +78,15 @@ h2 {
 
 /* Styling for Taken Workspaces */
 .taken {
-    background-color: lightcoral;
+    background-color: rgb(230, 93, 93);
 }
 
 /* Styling for Selected Workspaces */
 .selected {
     background-color: lightgreen;
+}
+.unavailable{
+    background-color: rgb(234, 187, 129)
 }
 /* my-button.component.css */
 .centered-button {

@@ -4,8 +4,8 @@
 
   <div class="row">
     <div class="col-md-4">
-      <div class="form-group">
-        <label for="employeeId" *ngIf="isAdmin">Employee ID:</label>
+      <div class="form-group" *ngIf="isAdminBooking">
+        <label for="employeeId">Employee ID:</label>
         <select [(ngModel)]="selectedId" class="form-control">
           <option value="-1">--- select ---</option>
           <option *ngFor="let item of employees" [value]="item.id">
@@ -117,7 +117,7 @@
                 unavailable: room.workspaces[rowIndex][colIndex].isUnavailable
               }"
               (click)="
-                isAdmin && isMarkUnavailable
+                isAdminMarkUnavailable
                   ? toggleWorkspaceSelection(rowIndex, colIndex)
                   : bookWorkspace(rowIndex, colIndex, randomNumber.toString())
               "
@@ -133,12 +133,12 @@
   <button
     class="centered-button"
     (click)="
-      isAdmin && isMarkUnavailable
+      isAdminMarkUnavailable
         ? markSelectedWorkspacesUnavailable()
         : sendBookingData()
     "
   >
-    {{ isAdmin && isMarkUnavailable ? "Mark Unavailable" : "Book workspace" }}
+    {{ isAdminMarkUnavailable ? "Mark Unavailable" : "Book workspace" }}
   </button>
 </div>
 <!-- Example of using BookingDetailsComponent -->

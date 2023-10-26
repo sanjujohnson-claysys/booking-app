@@ -6,6 +6,7 @@ import { AdminActionsService } from 'src/app//admin-actions.service';
 import { MarkUnavailable } from '../mark-unavailable';
 import { MarkWorkspaceUnavailableService } from '../mark-workspace-unavailable.service';
 import { FetchEmployeeIdsService } from 'src/app//fetch-employee-ids.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface BookingData {
   BookingDate: string;
@@ -97,9 +98,9 @@ export class BookingComponent {
     private sendData: DataService,
     private fb: FormBuilder,
     private bookingService: UserBookingStatusService,
-    private adminService: AdminActionsService,
     private unavailable: MarkWorkspaceUnavailableService,
-    private fetchidsandnames: FetchEmployeeIdsService
+    private fetchidsandnames: FetchEmployeeIdsService,
+    private route: ActivatedRoute
   ) {
     const today = new Date();
     this.currentDate = this.formatDate(today);
@@ -111,7 +112,35 @@ export class BookingComponent {
     console.log('constructor inside' + this.selectedDate);
     this.initializeWorkspaceStatus();
   }
-  isAdmin: Boolean = true;
+  // isAdmin: Boolean = true;
+
+  //
+  isUserBooking: boolean = false;
+  isAdminBooking: boolean = true;
+  isAdminMarkUnavailable: boolean = false;
+  selectFeature(featureType: string): void {
+    this.isUserBooking = false;
+    this.isAdminBooking = false;
+    this.isAdminMarkUnavailable = false;
+
+    if (featureType === 'user-booking') {
+      this.isUserBooking = true;
+    } else if (featureType === 'admin-booking') {
+      this.isAdminBooking = true;
+    } else if (featureType === 'admin-mark-unavailable') {
+      this.isAdminMarkUnavailable = true;
+    }
+  }
+  subscribeToRouteParams(): void {
+    this.route.paramMap.subscribe((params) => {
+      const featureType = params.get('type');
+      if (featureType !== null) {
+        this.selectFeature(featureType);
+      }
+    });
+  }
+
+  //
   bookingData: any[] = [];
   loading = false;
   error = '';
@@ -119,6 +148,7 @@ export class BookingComponent {
   ngOnInit(): void {
     this.searchWorkspace();
     this.fetchEmployees();
+    this.subscribeToRouteParams();
   }
 
   findWorkspace(squareNumber: number): Workspace {
@@ -340,7 +370,9 @@ export class BookingComponent {
 
   toggleWorkspaceSelection(row: number, col: number): void {
     const selectedWorkspace = this.room.workspaces[row][col];
-    selectedWorkspace.isSelected = !selectedWorkspace.isSelected;
+    if (!selectedWorkspace.isTaken) {
+      selectedWorkspace.isSelected = !selectedWorkspace.isSelected;
+    }
   }
   employees: any[] | undefined;
   selectedId: number = -1;

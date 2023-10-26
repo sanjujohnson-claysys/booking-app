@@ -1,4 +1,4 @@
-/* Custom CSS for the second navbar */
+/* Custom CSS for the horizontal navbar */
 .navbar {
     background-color: #007BFF;
     /* Change the background color to your preference */
@@ -19,7 +19,7 @@
 }
 
 .nav-link {
-    color: #FFF;
+    color: #161515;
     /* Change the text color to white */
     text-decoration: none;
     transition: color 0.3s;
@@ -27,6 +27,6 @@
 }
 
 .nav-link:hover {
-    color: #FFD700;
+    color: #74e511;
     /* Change text color on hover to gold or your preferred color */
 }

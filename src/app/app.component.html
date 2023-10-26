@@ -5,12 +5,16 @@
 <!-- <app-home-main></app-home-main> -->
 <!-- <app-footer></app-footer> -->
 <!-- <app-dummy></app-dummy> -->
+
 <!-- <app-graph></app-graph> -->
 <!-- <app-admin-booking></app-admin-booking> -->
 <!-- <app-booking-details></app-booking-details> -->
 <!-- <app-booking-details-by-id></app-booking-details-by-id> -->
 <!-- <app-admin-actions></app-admin-actions> -->
-<app-display-booking-data-for-user></app-display-booking-data-for-user>
+<!-- <app-display-booking-data-for-user></app-display-booking-data-for-user> -->
 
 <!-- <app-booking-cancellation></app-booking-cancellation> -->
 <!-- <app-admin-booking-data-by-filters></app-admin-booking-data-by-filters> -->
+<app-user-navbar *ngIf="isUser"></app-user-navbar>
+<app-admin-actions *ngIf="isAdmin"></app-admin-actions>
+<app-home-main *ngIf="!(isUser || isAdmin)"></app-home-main>
