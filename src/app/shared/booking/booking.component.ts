@@ -115,9 +115,9 @@ export class BookingComponent {
   // isAdmin: Boolean = true;
 
   //
-  isUserBooking: boolean = false;
-  isAdminBooking: boolean = true;
-  isAdminMarkUnavailable: boolean = false;
+  isUserBooking: boolean = true;
+  isAdminBooking: boolean = false;
+  isAdminMarkUnavailable: boolean = true;
   selectFeature(featureType: string): void {
     this.isUserBooking = false;
     this.isAdminBooking = false;
@@ -375,7 +375,7 @@ export class BookingComponent {
     }
   }
   employees: any[] | undefined;
-  selectedId: number = -1;
+  selectedId: number = 23;
 
   fetchEmployees() {
     this.fetchidsandnames.getEmployees().subscribe((data) => {

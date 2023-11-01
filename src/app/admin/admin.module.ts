@@ -8,6 +8,7 @@ import { BookingComponent } from '../shared/booking/booking.component';
 import { BookingDetailsComponent } from '../shared/booking-details/booking-details.component';
 import { AdminBookingDataByFiltersComponent } from './admin-booking-data-by-filters/admin-booking-data-by-filters.component';
 import { CommonModule } from '@angular/common';
+import { UserMessagesComponent } from './user-messages/user-messages.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
   declarations: [
     AdminActionsComponent,
     AdminBookingDataByFiltersComponent,
+    UserMessagesComponent,
 
     // Add other components that belong to this module here
   ],
@@ -43,6 +45,7 @@ const routes: Routes = [
     RouterModule,
     AdminActionsComponent,
     AdminBookingDataByFiltersComponent,
+    UserMessagesComponent,
   ],
 })
 export class AdminRoutingModule {}

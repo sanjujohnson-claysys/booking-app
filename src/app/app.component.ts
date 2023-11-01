@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'booking-app';
-  isUser: boolean = true; // Set to true if the user is an user, otherwise, set to false.
-  isAdmin: boolean = false;
+  isUser: boolean = false; // Set to true if the user is an user, otherwise, set to false.
+  isAdmin: boolean = true;
 }

@@ -17,6 +17,10 @@ import { RouterModule } from '@angular/router';
     UserNavbarComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
-  exports: [DisplayBookingDataForUserComponent, UserNavbarComponent],
+  exports: [
+    DisplayBookingDataForUserComponent,
+    UserNavbarComponent,
+    ContactAdminComponent,
+  ],
 })
 export class UserModule {}

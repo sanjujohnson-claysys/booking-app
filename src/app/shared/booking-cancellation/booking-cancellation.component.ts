@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/data.service'; // Import your DataService
 import { ListBookingDetails } from 'src/app/shared/booking-details'; // Import your interface
 import { MarkWorkspaceUnavailableService } from '../mark-workspace-unavailable.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-booking-cancellation',
@@ -27,36 +28,47 @@ export class BookingCancellationComponent implements OnInit {
     bookedWorkspace: this.bookingDetails.bookedWorkspace,
     employeeId: this.bookingDetails.employeeId,
   };
+  bookingId: number = -1;
 
   constructor(
     private dataService: DataService,
-    private cancel: MarkWorkspaceUnavailableService
+    private cancel: MarkWorkspaceUnavailableService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    // Call the DataService to get booking details
+    // Extract bookingId from the URL using ActivatedRoute
+    this.route.params.subscribe((params) => {
+      this.bookingId = +params['id']; // '+' is used to convert the parameter to a number
+      // Now, you can use this.bookingId to fetch booking details
+      this.fetchBookingDetails();
+    });
+  }
+  fetchBookingDetails() {
+    // Call the service to get booking details by ID
     this.dataService
-      .getBookingDetails()
+      .getBookingDetailsById(this.bookingId)
       .subscribe((data: ListBookingDetails) => {
         this.bookingDetails = data; // Store the fetched data
       });
   }
-  cancelworkspace() {
-    this.cancelBooking(this.bookingDetails);
-    console.log('the method is called');
-  }
-  cancelBooking(sendcancel: any) {
-    this.cancel.cancelBooking(sendcancel).subscribe(
-      (response) => {
+  // cancelworkspace() {
+  //   this.cancelBooking(this.bookingDetails);
+  //   console.log('the method is called');
+  // }
+  cancelBooking(bookingId: number) {
+    this.cancel.cancelBooking(bookingId).subscribe(
+      () => {
         // Handle the successful cancel response here
-        alert('booking canceled');
+        console.log('Booking canceled successfully');
+        alert('Booking canceled successfully');
 
         // You can perform any other actions as needed
       },
       (error) => {
         // Handle the error if the cancellation fails
-        console.error('Booking canceled:', error);
-        alert('booking canceled');
+        console.error('Failed to cancel booking:', error);
+        alert('Failed to cancel booking');
         // You can show an error message or perform other error handling
       }
     );

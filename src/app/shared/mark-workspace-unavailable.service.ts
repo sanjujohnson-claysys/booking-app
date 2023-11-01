@@ -21,10 +21,11 @@ export class MarkWorkspaceUnavailableService {
 
     return this.http.post(this.apiUrl, data, httpOptions);
   }
-  cancelBooking(cancelBookingData: any): Observable<any> {
-    return this.http.post(
+  cancelBooking(bookingId: number): Observable<any> {
+    const requestData = { bookingId: bookingId };
+    return this.http.put(
       `${this.apiBaseUrl}/api/Cancel/CancelBooking`,
-      cancelBookingData
+      requestData
     );
   }
 }

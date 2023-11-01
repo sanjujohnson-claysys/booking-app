@@ -7,6 +7,8 @@ import { DisplayBookingDataForUserComponent } from '../display-booking-data-for-
 import { UpcomingBookingsComponent } from '../upcoming-bookings/upcoming-bookings.component';
 import { ContactAdminComponent } from '../contact-admin/contact-admin.component';
 import { UpdateProfileComponent } from '../update-profile/update-profile.component';
+import { BookingDetailsComponent } from 'src/app/shared/booking-details/booking-details.component';
+import { BookingCancellationComponent } from 'src/app/shared/booking-cancellation/booking-cancellation.component';
 const userRoutes: Routes = [
   { path: 'user/book-workspace', component: BookingComponent },
   {
@@ -16,6 +18,14 @@ const userRoutes: Routes = [
   { path: 'user/upcoming-bookings', component: UpcomingBookingsComponent },
   { path: 'user/contact-admin', component: ContactAdminComponent },
   { path: 'user/update-profile', component: UpdateProfileComponent },
+  {
+    path: 'user/upcoming-bookings/details/:id',
+    component: BookingDetailsComponent,
+  },
+  {
+    path: 'user/upcoming-bookings/cancel/:id',
+    component: BookingCancellationComponent,
+  },
 ];
 
 @NgModule({

@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators,  AbstractControl  } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DataService } from 'src/app/data.service';
 
 @Component({
   selector: 'app-employee-signup',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  styleUrls: ['./sign-up.component.css'],
 })
 export class EmployeeSignupComponent {
   signupForm: FormGroup;
@@ -16,65 +22,70 @@ export class EmployeeSignupComponent {
   positions: { [key: string]: string[] } = {
     'Department A': ['Position 1A', 'Position 2A', 'Position 3A'],
     'Department B': ['Position 1B', 'Position 2B', 'Position 3B'],
-    'Department C': ['Position 1C', 'Position 2C', 'Position 3C']
+    'Department C': ['Position 1C', 'Position 2C', 'Position 3C'],
   };
 
   constructor(private fb: FormBuilder, private dataService: DataService) {
-    this.signupForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      gender: ['', Validators.required],
-      dob: ['', Validators.required, this.validateAge],
-       department: ['', Validators.required],
-      position: ['', Validators.required],
-      address: ['', [Validators.required,Validators.minLength(15)]],
-      pincode: ['', Validators.required],
-      aadhar: ['', Validators.required],
-      departments: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required],
-    }, { validator: this.passwordMatchValidator });
-    
+    this.signupForm = this.fb.group(
+      {
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        gender: ['', Validators.required],
+        dob: ['', Validators.required, this.validateAge],
+        department: ['', Validators.required],
+        position: ['', Validators.required],
+        address: ['', [Validators.required, Validators.minLength(15)]],
+        pincode: ['', Validators.required],
+        aadhar: ['', Validators.required],
+        // departments: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        phone: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        confirmPassword: ['', Validators.required],
+      },
+      { validator: this.passwordMatchValidator }
+    );
   }
 
+  passwordMatchValidator(
+    control: AbstractControl
+  ): { [key: string]: boolean } | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
 
-   passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
-  const password = control.get('password');
-  const confirmPassword = control.get('confirmPassword');
+    if (password!.value !== confirmPassword!.value) {
+      return { passwordMismatch: true };
+    }
 
-  if (password !.value !== confirmPassword !.value) {
-    return { 'passwordMismatch': true };
+    return null;
   }
+  // updatePositions() {
+  //   const selectedDepartment = this.signupForm.get('department')!.value;
+  //   this.signupForm.get('position')!.setValue('');
+  // }
+  validateAge(
+    control: FormControl
+  ): Promise<{ [key: string]: boolean } | null> {
+    return new Promise((resolve) => {
+      if (control.value) {
+        const dob = new Date(control.value);
+        const today = new Date();
+        const age = today.getFullYear() - dob.getFullYear();
 
-  return null;
-}
-      updatePositions() {
-    const selectedDepartment = this.signupForm.get('department')!.value;
-    this.signupForm.get('position')!.setValue('');
-  }
-   validateAge(control: FormControl): Promise<{ [key: string]: boolean } | null> {
-  return new Promise((resolve) => {
-    if (control.value) {
-      const dob = new Date(control.value);
-      const today = new Date();
-      const age = today.getFullYear() - dob.getFullYear();
-
-      if (age < 18) {
-        resolve({ 'underage': true });
+        if (age < 18) {
+          resolve({ underage: true });
+        } else {
+          resolve(null);
+        }
       } else {
         resolve(null);
       }
-    } else {
-      resolve(null);
-    }
-  });
-}
+    });
+  }
 
-    checkAllControlsValidity(): boolean {
+  checkAllControlsValidity(): boolean {
     let isValid = true;
-
+    console.log(this.signupForm.controls);
     for (const controlName in this.signupForm.controls) {
       const control = this.signupForm.get(controlName);
 
@@ -93,7 +104,7 @@ export class EmployeeSignupComponent {
     if (isFormValid) {
       // Send the form data to the backend using the data service
       const formData = this.signupForm.value;
-
+      console.log('inside the onsubmit method');
       // Replace 'your-backend-url' with the actual URL where you want to send the data
       this.dataService.postEmployees(formData).subscribe((response: JSON) => {
         // Handle the backend response here if needed
@@ -102,4 +113,3 @@ export class EmployeeSignupComponent {
     }
   }
 }
-

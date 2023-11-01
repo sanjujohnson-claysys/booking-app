@@ -294,14 +294,14 @@
               <input
                 type="text"
                 class="form-control"
-                id="phoneNumber"
-                [formControlName]="'phoneNumber'"
+                id="phone"
+                [formControlName]="'phone'"
                 placeholder="Enter phone number"
               />
               <div
                 *ngIf="
-                  signupForm.get('phoneNumber')?.hasError('required') &&
-                  signupForm.get('phoneNumber')?.touched
+                  signupForm.get('phone')?.hasError('required') &&
+                  signupForm.get('phone')?.touched
                 "
                 class="text-danger"
               >
@@ -309,8 +309,8 @@
               </div>
               <div
                 *ngIf="
-                  signupForm.get('phoneNumber')?.hasError('pattern') &&
-                  signupForm.get('phoneNumber')?.touched
+                  signupForm.get('phone')?.hasError('pattern') &&
+                  signupForm.get('phone')?.touched
                 "
                 class="text-danger"
               >
@@ -378,7 +378,11 @@
 
             <!-- Include similar form groups for other fields -->
 
-            <button type="submit" class="btn btn-primary btn-block">
+            <button
+              type="submit"
+              (click)="(onSubmit)"
+              class="btn btn-primary btn-block"
+            >
               Sign Up
             </button>
           </form>
