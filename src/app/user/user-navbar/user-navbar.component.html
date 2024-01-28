@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [routerLink]="'/user/booking'"
+        [queryParams]="{ feature: 'user-booking' }"
+      >
+        Book a Workspace
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/user/booking-details">Booking Details</a>
+    </li>
+    <!-- "['/admin-actions/booking','mark-unavailable']" -->
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/user/upcoming-bookings"
+        >Upcoming Bookings</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/user/contact-admin">Contact Admin</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/user/update-profile">Update Profile</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/user/sign-out">Sign Out</a>
+    </li>
+  </ul>
+</nav>
+
+<router-outlet></router-outlet>

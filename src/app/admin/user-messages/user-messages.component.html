@@ -1,0 +1,28 @@
+<!-- message-list.component.html -->
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Subject</th>
+      <th>Message Text</th>
+      <th>Timestamp</th>
+      <th>Is Read</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let message of messages">
+      <td>{{ message.messageID }}</td>
+      <td>{{ message.name }}</td>
+      <td>{{ message.email }}</td>
+      <td>{{ message.phone }}</td>
+      <td>{{ message.subject }}</td>
+      <td>{{ message.messageText }}</td>
+      <td>{{ message.timestamp | date : "medium" }}</td>
+      <td>{{ message.IsRead ? "Yes" : "No" }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,19 @@
+<div class="booking-details">
+  <h2>Booking Details</h2>
+  <p><strong>Booking ID:</strong> {{ bookingDetails.bookingId }}</p>
+  <p>
+    <strong>Booking Date:</strong>
+    {{ bookingDetails.bookingDate.toString().split("T")[0] }}
+  </p>
+  <p><strong>Booking Time:</strong> {{ bookingDetails.bookingTime }}</p>
+  <p><strong>Booked Room:</strong> {{ bookingDetails.bookedRoom }}</p>
+  <p><strong>Booked Workspace:</strong> {{ bookingDetails.bookedWorkspace }}</p>
+  <p><strong>Employee ID:</strong> {{ bookingDetails.employeeId }}</p>
+  <p><strong>Employee Name:</strong> {{ bookingDetails.employeeName }}</p>
+  <p><strong>Status:</strong> {{ bookingDetails.status }}</p>
+
+  <!-- your-component.component.html -->
+  <button class="btn btn-danger" (click)="cancelBooking(bookingId)">
+    Cancel
+  </button>
+</div>

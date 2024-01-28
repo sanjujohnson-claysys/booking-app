@@ -1,0 +1,119 @@
+/* booking.component.css */
+
+/* Center the container */
+.container {
+    text-align: center;
+}
+
+/* Style the page header */
+h2 {
+    font-size: 28px;
+    color: #333;
+}
+
+/* Style the date and time selection row */
+.mb-3 {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Style the workspace grid layout */
+.hall {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.row .column {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ddd;
+    text-align: center;
+    line-height: 60px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.row .column:hover {
+    background-color: #c7e2c7;
+    /* Light green on hover */
+}
+
+
+
+/* Style the booking information box */
+.booking-info {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the "Cancel" button */
+.btn-danger {
+    background-color: #ff6961;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-danger:hover {
+    background-color: #ff4d4d;
+    /* Darker red on hover */
+}
+
+/* Styling for Free Workspaces */
+.free {
+    background-color: rgb(29, 166, 211);
+}
+
+/* Styling for Taken Workspaces */
+.taken {
+    background-color: rgb(230, 93, 93);
+}
+
+/* Styling for Selected Workspaces */
+.selected {
+    background-color: lightgreen;
+}
+.unavailable{
+    background-color: rgb(234, 187, 129)
+}
+.booked {
+    background-color: darkgreen;
+}
+/* my-button.component.css */
+.centered-button {
+    
+    width: 8rem;
+    margin: 20px auto;
+    /* Adjust the margin as needed */
+    padding: 10px 20px;
+    background-color: #3498db;
+    /* Button background color */
+    color: #fff;
+    /* Button text color */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* Smooth hover effect */
+
+    /* Center the button horizontally */
+    text-align: center;
+}
+
+.centered-button:hover {
+    background-color: #2980b9;
+    /* Button background color on hover */
+}

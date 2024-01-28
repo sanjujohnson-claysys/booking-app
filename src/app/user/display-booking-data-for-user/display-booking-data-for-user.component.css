@@ -1,0 +1,49 @@
+/* Styles for the main container */
+.booking-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Styles for the title */
+.title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Styles for the filter inputs */
+.filter-input {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Styles for the table */
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.booking-table th,
+.booking-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+.booking-table th {
+    background-color: #333;
+    color: #fff;
+}
+
+.booking-table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+/* Styles for individual rows */
+.booking-row:hover {
+    background-color: #e0e0e0;
+}

@@ -1,0 +1,393 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="text-center">Employee Signup</h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="firstName">First Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="firstName"
+                [formControlName]="'firstName'"
+                placeholder="Enter first name"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('firstName')?.hasError('required') &&
+                  signupForm.get('firstName')?.touched
+                "
+                class="text-danger"
+              >
+                First Name is required.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="lastName">Last Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastName"
+                [formControlName]="'lastName'"
+                placeholder="Enter last name"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('lastName')?.hasError('required') &&
+                  signupForm.get('lastName')?.touched
+                "
+                class="text-danger"
+              >
+                Last Name is required.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Gender:</label>
+              <div>
+                <label class="radio-inline">
+                  <input
+                    type="radio"
+                    [formControlName]="'gender'"
+                    value="male"
+                  />
+                  Male
+                </label>
+                <label class="radio-inline">
+                  <input
+                    type="radio"
+                    [formControlName]="'gender'"
+                    value="female"
+                  />
+                  Female
+                </label>
+                <label class="radio-inline">
+                  <input
+                    type="radio"
+                    [formControlName]="'gender'"
+                    value="other"
+                  />
+                  Other
+                </label>
+              </div>
+              <div
+                *ngIf="
+                  signupForm.get('gender')?.hasError('required') &&
+                  signupForm.get('gender')?.touched
+                "
+                class="text-danger"
+              >
+                Gender is required.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="dob">Date of Birth:</label>
+              <input
+                type="date"
+                class="form-control"
+                id="dob"
+                formControlName="dob"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('dob')?.hasError('required') &&
+                  signupForm.get('dob')?.touched
+                "
+                class="text-danger"
+              >
+                Date of Birth is required.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.get('dob')?.hasError('underage') &&
+                  signupForm.get('dob')?.touched
+                "
+                class="text-danger"
+              >
+                Age must be at least 18 years old.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <textarea
+                class="form-control"
+                id="address"
+                [formControlName]="'address'"
+                rows="3"
+              ></textarea>
+              <div
+                *ngIf="
+                  signupForm.get('address')?.hasError('minlength') &&
+                  signupForm.get('address')?.touched
+                "
+                class="text-danger"
+              >
+                Address should be atleast 15 characters.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.get('address')?.hasError('required') &&
+                  signupForm.get('address')?.touched
+                "
+                class="text-danger"
+              >
+                Address required.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="pincode">Pincode (6 digits):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="pincode"
+                [formControlName]="'pincode'"
+                placeholder="Enter 6-digit pincode"
+                pattern="\d{6}"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('pincode')?.hasError('required') &&
+                  signupForm.get('pincode')?.touched
+                "
+                class="text-danger"
+              >
+                Pincode is required.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.get('pincode')?.hasError('pattern') &&
+                  signupForm.get('pincode')?.touched
+                "
+                class="text-danger"
+              >
+                Pincode must be a 6-digit number.
+              </div>
+            </div>
+
+            <!-- Add the remaining form fields (aadhar, position, department, email, password) here -->
+
+            <div class="form-group">
+              <label for="aadhar">Aadhar Number (12 digits):</label>
+              <input
+                type="text"
+                class="form-control"
+                id="aadhar"
+                [formControlName]="'aadhar'"
+                placeholder="Enter Aadhar Number"
+                pattern="[0-9]{12}"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('aadhar')?.hasError('required') &&
+                  signupForm.get('aadhar')?.touched
+                "
+                class="text-danger"
+              >
+                Aadhar Number is required.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.get('aadhar')?.hasError('pattern') &&
+                  signupForm.get('aadhar')?.touched
+                "
+                class="text-danger"
+              >
+                Aadhar Number must be a 12-digit number.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="department">Department:</label>
+              <select
+                class="form-control"
+                id="department"
+                [formControlName]="'department'"
+              >
+                <option value="" disabled>Select Department</option>
+                <option
+                  *ngFor="let department of departments"
+                  [value]="department"
+                >
+                  {{ department }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  signupForm.get('department')?.hasError('required') &&
+                  signupForm.get('department')?.touched
+                "
+                class="text-danger"
+              >
+                Department is required.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="position">Position:</label>
+              <select
+                class="form-control"
+                id="position"
+                [formControlName]="'position'"
+              >
+                <option value="" disabled>Select Position</option>
+                <option
+                  *ngFor="
+                    let position of positions[
+                      signupForm.get('department')!.value
+                    ]
+                  "
+                  [value]="position"
+                >
+                  {{ position }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  signupForm.get('position')?.hasError('required') &&
+                  signupForm.get('position')?.touched
+                "
+                class="text-danger"
+              >
+                Position is required.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                [formControlName]="'email'"
+                placeholder="Enter email"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('email')?.hasError('required') &&
+                  signupForm.get('email')?.touched
+                "
+                class="text-danger"
+              >
+                Email is required.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.get('email')?.hasError('email') &&
+                  signupForm.get('email')?.touched
+                "
+                class="text-danger"
+              >
+                Invalid email format.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="phoneNumber">Phone Number:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="phone"
+                [formControlName]="'phone'"
+                placeholder="Enter phone number"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('phone')?.hasError('required') &&
+                  signupForm.get('phone')?.touched
+                "
+                class="text-danger"
+              >
+                Phone Number is required.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.get('phone')?.hasError('pattern') &&
+                  signupForm.get('phone')?.touched
+                "
+                class="text-danger"
+              >
+                Please enter a valid phone number starting with 6, 7, 8, or 9.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password (min. 8 characters):</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                [formControlName]="'password'"
+                placeholder="Enter password"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('password')?.hasError('required') &&
+                  signupForm.get('password')?.touched
+                "
+                class="text-danger"
+              >
+                Password is required.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.get('password')?.hasError('minlength') &&
+                  signupForm.get('password')?.touched
+                "
+                class="text-danger"
+              >
+                Password must be at least 8 characters long.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password:</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmPassword"
+                [formControlName]="'confirmPassword'"
+                placeholder="Confirm password"
+              />
+              <div
+                *ngIf="
+                  signupForm.get('confirmPassword')?.hasError('required') &&
+                  signupForm.get('confirmPassword')?.touched
+                "
+                class="text-danger"
+              >
+                Confirm Password is required.
+              </div>
+              <div
+                *ngIf="
+                  signupForm.hasError('passwordMismatch') &&
+                  signupForm.get('confirmPassword')?.touched
+                "
+                class="text-danger"
+              >
+                Passwords do not match.
+              </div>
+            </div>
+
+            <!-- Include similar form groups for other fields -->
+
+            <button
+              type="submit"
+              (click)="(onSubmit)"
+              class="btn btn-primary btn-block"
+            >
+              Sign Up
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

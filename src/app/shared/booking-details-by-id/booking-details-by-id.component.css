@@ -1,0 +1,18 @@
+.booking-details {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.booking-details h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.booking-details p {
+    margin: 5px 0;
+}
+
+/* Add more CSS styles to customize the component's appearance */

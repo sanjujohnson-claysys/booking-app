@@ -1,0 +1,102 @@
+<div class="booking-container">
+  <h1 class="title">Booking List</h1>
+
+  <!-- Filters -->
+  <div class="filters">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="startDate">Start Date:</label>
+        <input
+          type="date"
+          id="startDate"
+          [(ngModel)]="startDateString"
+          (change)="loadBookingData()"
+          class="filter-input"
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="endDate">End Date:</label>
+        <input
+          type="date"
+          id="endDate"
+          [(ngModel)]="endDateString"
+          (ngModelChange)="loadBookingData()"
+          class="filter-input"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="bookingTime">Booking Time:</label>
+        <select
+          id="bookingTime"
+          [(ngModel)]="bookingTime"
+          (ngModelChange)="loadBookingData()"
+          class="filter-input"
+          name="time"
+        >
+          <option *ngFor="let option of bookingTimeOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="bookedRoom">Booked Room:</label>
+
+        <select
+          [(ngModel)]="bookedRoom"
+          (ngModelChange)="loadBookingData()"
+          class="filter-input"
+          name="room"
+        >
+          <option *ngFor="let option of bookedRoomOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label for="status">Status:</label>
+
+        <select
+          id="status"
+          [(ngModel)]="status"
+          (ngModelChange)="loadBookingData()"
+          class="filter-input"
+          name="status"
+        >
+          <option *ngFor="let option of statusOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <!-- Booking Data Table -->
+  <table class="booking-table">
+    <thead>
+      <tr>
+        <th>Booking ID</th>
+        <th>Booking Date</th>
+        <th>Booking Time</th>
+        <th>Booked Room</th>
+        <th>booked Workspace</th>
+        <th>Employee ID</th>
+        <th>Employee Name</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of bookingData" class="booking-row">
+        <td>{{ booking.bookingId }}</td>
+        <td>{{ booking.bookingDate | date }}</td>
+        <td>{{ booking.bookingTime }}</td>
+        <td>{{ booking.bookedRoom }}</td>
+        <td>{{ booking.bookedWorkspace }}</td>
+        <td>{{ booking.employeeId }}</td>
+        <td>{{ booking.employeeName }}</td>
+        <td>{{ booking.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

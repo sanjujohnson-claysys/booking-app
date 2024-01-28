@@ -1,0 +1,148 @@
+<!-- Date and Time Selection -->
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Workspace Booking Interface</h2>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="roomSelect">Select Room:</label>
+        <select
+          class="form-control"
+          id="roomSelect"
+          [formControl]="roomControl"
+          [(ngModel)]="selectedRoom"
+        >
+          <option value="">--- select ---</option>
+          <option value="A">Room A</option>
+          <option value="B">Room B</option>
+        </select>
+
+        <div *ngIf="roomControl.hasError('required')" class="text-danger">
+          Room is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="datePicker">Select Date:</label>
+        <input
+          type="date"
+          class="form-control"
+          id="datePicker"
+          [(ngModel)]="selectedDate"
+          [formControl]="dateControl"
+          [min]="currentDate"
+          [max]="maxDate"
+        />
+
+        <div *ngIf="dateControl.hasError('required')" class="text-danger">
+          Date is required.
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="timeSelect">Select Time:</label>
+        <select
+          class="form-control"
+          id="timeSelect"
+          [formControl]="timeControl"
+          [(ngModel)]="selectedTime"
+        >
+          <option value="">--- select ---</option>
+          <option value="morning">Morning</option>
+          <option value="afternoon">Afternoon</option>
+        </select>
+
+        <div *ngIf="timeControl.hasError('required')" class="text-danger">
+          Time is required.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-md-4 offset-md-4">
+      <div class="form-group" *ngIf="isAdminBooking">
+        <label for="employeeId">Employee ID:</label>
+        <select [(ngModel)]="selectedId" class="form-control">
+          <option value="-1">--- select ---</option>
+          <option *ngFor="let item of employees" [value]="item.id">
+            {{ item.id }}
+          </option>
+        </select>
+
+        <div *ngIf="selectedId">
+          <p>Selected Name: {{ getNameById(selectedId) }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-3">
+    <button class="centered-button" (click)="searchWorkspace()">
+      Select Workspace
+    </button>
+  </div>
+</div>
+
+<!-- Workspace Grid Layout -->
+<div class="row">
+  <div class="col-md-12">
+    <div class="hall">
+      <table class="grid">
+        <tbody>
+          <tr>
+            <!-- Empty cell for the top-left corner -->
+            <td></td>
+            <!-- Display horizontal numbers -->
+            <td
+              *ngFor="let column of room.cols; let colIndex = index"
+              class="row-number horizontal-number"
+            >
+              {{ colIndex + 1 }}
+            </td>
+          </tr>
+          <tr *ngFor="let row of room.rows; let rowIndex = index">
+            <!-- Vertical number for each row -->
+            <td class="row-number vertical-number">{{ rowIndex + 1 }}</td>
+            <!-- Actual grid cells -->
+            <td
+              *ngFor="let column of room.cols; let colIndex = index"
+              class="column"
+              [ngClass]="{
+                free: room.workspaces[rowIndex][colIndex].isFree,
+                taken: room.workspaces[rowIndex][colIndex].isTaken,
+                selected: room.workspaces[rowIndex][colIndex].isSelected,
+                unavailable: room.workspaces[rowIndex][colIndex].isUnavailable,
+                booked: room.workspaces[rowIndex][colIndex].isBooked
+              }"
+              (click)="
+                isAdminMarkUnavailable
+                  ? toggleWorkspaceSelection(rowIndex, colIndex)
+                  : bookWorkspace(rowIndex, colIndex, randomNumber.toString())
+              "
+            >
+              {{ room.getCellNumber(rowIndex, colIndex) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- my-button.component.html -->
+  <button
+    [disabled]="isDisabled"
+    class="centered-button"
+    (click)="
+      isAdminMarkUnavailable
+        ? markSelectedWorkspacesUnavailable()
+        : sendBookingData()
+    "
+  >
+    {{ isAdminMarkUnavailable ? "Mark Unavailable" : "Book workspace" }}
+  </button>
+</div>
+<!-- Example of using BookingDetailsComponent -->
+<!-- <app-booking-details></app-booking-details> -->

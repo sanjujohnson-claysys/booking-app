@@ -1,0 +1,34 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Booking Date</th>
+      <th>Booking Time</th>
+      <th>Booked Room</th>
+      <th>Booked Workspace</th>
+      <th>Employee Name</th>
+      <th>Status</th>
+      <th>Details</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let booking of bookings">
+      <td>{{ booking.bookingDate | date }}</td>
+      <td>{{ booking.bookingTime }}</td>
+      <td>{{ booking.bookedRoom }}</td>
+      <td>{{ booking.bookedWorkspace }}</td>
+      <td>{{ booking.employeeName }}</td>
+      <td>{{ booking.status }}</td>
+      <td>
+        <a [routerLink]="['/user/upcoming-bookings/details', booking.bookingId]"
+          >Details</a
+        >
+      </td>
+      <td>
+        <a [routerLink]="['/user/upcoming-bookings/cancel', booking.bookingId]"
+          >Cancel</a
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>
