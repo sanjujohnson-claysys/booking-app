@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserModule } from './user/user.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -17,6 +18,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserRoutingModule } from './user/user-routing/user-routing.module';
 import { JwtInterceptor } from './auth.service';
 import { SignOutComponent } from './sign-out/sign-out.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import { SignOutComponent } from './sign-out/sign-out.component';
   ],
   imports: [
     BrowserModule,
+    MatSnackBarModule,
     AppRoutingModule,
     FormsModule,
     SharedModule,
@@ -38,6 +41,7 @@ import { SignOutComponent } from './sign-out/sign-out.component';
     ReactiveFormsModule,
     UserRoutingModule,
     RouterModule,
+    BrowserAnimationsModule,
     // AdminRoutingModule,
   ],
   providers: [DataService, UserBookingStatusService, adminBookingService, {

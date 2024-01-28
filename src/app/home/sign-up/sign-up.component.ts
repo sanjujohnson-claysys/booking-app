@@ -7,7 +7,9 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DataService } from 'src/app/data.service';
+import { ToastService } from 'src/app/toast.service';
 
 @Component({
   selector: 'app-employee-signup',
@@ -25,7 +27,7 @@ export class EmployeeSignupComponent {
     'Department C': ['Position 1C', 'Position 2C', 'Position 3C'],
   };
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {
+  constructor(private fb: FormBuilder, private dataService: DataService,private toastService: ToastService, private router: Router) {
     this.signupForm = this.fb.group(
       {
         firstName: ['', Validators.required],
@@ -109,6 +111,13 @@ export class EmployeeSignupComponent {
       this.dataService.postEmployees(formData).subscribe((response: JSON) => {
         // Handle the backend response here if needed
         console.log('Backend response:', response);
+        this.toastService.showToast('Sign-up successful!');
+        console.log('toast code is executed!')
+        setTimeout(() => {
+          this.router.navigate(['/sign in']);
+        }, 2500);
+        
+
       });
     }
   }

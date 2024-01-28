@@ -7,6 +7,7 @@ import { MarkWorkspaceUnavailableService } from '../mark-workspace-unavailable.s
 import { FetchEmployeeIdsService } from 'src/app//fetch-employee-ids.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
+import { ToastService } from 'src/app/toast.service';
 
 interface BookingData {
   BookingDate: string;
@@ -95,6 +96,7 @@ export class BookingComponent {
   });
 
   constructor(
+    private toastService:ToastService,
     private jwt:AuthService,
     private router: Router,
     private sendData: DataService,
@@ -291,15 +293,20 @@ export class BookingComponent {
         (response) => {
             // Handle the successful response here
             console.log('Post request successful', response);
-            
+            this.toastService.showToast('work Space booked!');
             // Assuming you have a route named 'booking-details', navigate to it
-            this.router.navigate(['/user/booked-details'], { state: { workspaceData: workspaceData} });
+            setTimeout(() => {
+              this.router.navigate(['/user/booked-details'], { queryParams: workspaceData });
+            }, 2000);
+            
+            
         },
         (error) => {
             // Handle errors here
             console.error('Error in post request', error);
             console.log(workspaceData)
             // You can handle and display the error to the user.
+            
             this.router.navigate(['/user/booked-details'], { queryParams: workspaceData });
         }
     );
@@ -309,7 +316,9 @@ export class BookingComponent {
     console.log('Button working');
   }
   searchWorkspace(): void {
+    this.isDisabled = false ;
     this.loading = true;
+    this.initializeWorkspaceStatus()
     this.bookingService
       .getBookingData(
         this.selectedDate,
@@ -328,10 +337,12 @@ export class BookingComponent {
             const workspace = this.findWorkspace(workspaceNumber); // Use 'this' to invoke the method
 
             if (workspace) {
+              
               workspace.isTaken = workspaceObj.status === 'taken';
+              
+              workspace.isBooked = workspaceObj.status === 'Booked'; // Fix the assignment here
               workspace.isFree = !(workspace.isTaken || workspace.isBooked);
-              workspace.isBooked = workspaceObj.status === 'booked'; // Fix the assignment here
-              if(workspaceObj.status === 'booked'){ this.isDisabled = true}
+              if(workspaceObj.status === 'Booked'){ this.isDisabled = true}
 
               workspace.isTaken = !workspace.isSelected;
               console.log(workspace);
