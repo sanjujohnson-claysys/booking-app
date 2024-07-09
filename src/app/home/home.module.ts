@@ -10,13 +10,15 @@ import {HomeRoutingModule} from '../home-routing.module'
 import { ReactiveFormsModule } from '@angular/forms';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { RouterOutlet } from '@angular/router';
 @NgModule({
   declarations: [HomepageComponent,NavHomeComponent,SignInComponent,EmployeeSignupComponent,HomeMainComponent,AboutUsComponent,ContactUsComponent],
   imports: [
     CommonModule,
     RouterModule,
     HomeRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterOutlet
 
     
   ],
