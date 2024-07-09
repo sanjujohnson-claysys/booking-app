@@ -1,0 +1,45 @@
+<!-- graph.component.html -->
+<div class="container mt-4 mb-4">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="startDate">Start Date:</label>
+        <input
+          type="date"
+          class="form-control"
+          id="startDate"
+          [(ngModel)]="startDate"
+          (change)="fetchData()"
+        />
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="endDate">End Date:</label>
+        <input
+          type="date"
+          class="form-control"
+          id="endDate"
+          [(ngModel)]="endDate"
+          (change)="fetchData()"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chart-container">
+  <ngx-charts-bar-vertical-stacked
+    [view]="[1200, 500]"
+    [scheme]="colorScheme"
+    [results]="data"
+    [xAxis]="true"
+    [yAxis]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxisLabel]="'Date'"
+    [yAxisLabel]="'Bookings'"
+    [legend]="true"
+  >
+  </ngx-charts-bar-vertical-stacked>
+</div>
