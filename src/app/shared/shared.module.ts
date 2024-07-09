@@ -9,7 +9,7 @@ import { DataService } from '../data.service';
 import { AuthService } from '../auth.service';
 import { GraphComponent } from './graph/graph.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'; // Import HttpClientModule
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminBookingComponent } from './admin-booking/admin-booking.component';
 import { adminBookingService } from '../admin-booking.service';
@@ -18,38 +18,32 @@ import { BookingListComponent } from './booking-list/booking-list.component';
 import { BookingCancellationComponent } from './booking-cancellation/booking-cancellation.component';
 import { BookingDetailsByIdComponent } from './booking-details-by-id/booking-details-by-id.component';
 
-@NgModule({
-  declarations: [
-    BookingComponent,
-    BookingDetailsComponent,
-    GraphComponent,
-    AdminBookingComponent,
-    BookingListComponent,
-    BookingCancellationComponent,
-    BookingDetailsByIdComponent,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgxChartsModule,
-    BrowserAnimationsModule,
-  ],
-  providers: [
-    DataService,
-    AuthService,
-    GraphDataService,
-    adminBookingService,
-    AdminActionsService,
-  ], // Include BookingDataService in the providers array
-  exports: [
-    BookingComponent,
-    BookingDetailsComponent,
-    GraphComponent,
-    AdminBookingComponent,
-    BookingCancellationComponent,
-    BookingDetailsByIdComponent,
-  ],
-})
+@NgModule({ declarations: [
+        BookingComponent,
+        BookingDetailsComponent,
+        GraphComponent,
+        AdminBookingComponent,
+        BookingListComponent,
+        BookingCancellationComponent,
+        BookingDetailsByIdComponent,
+    ], // Include BookingDataService in the providers array
+    exports: [
+        BookingComponent,
+        BookingDetailsComponent,
+        GraphComponent,
+        AdminBookingComponent,
+        BookingCancellationComponent,
+        BookingDetailsByIdComponent,
+    ], imports: [CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxChartsModule,
+        BrowserAnimationsModule], providers: [
+        DataService,
+        AuthService,
+        GraphDataService,
+        adminBookingService,
+        AdminActionsService,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class SharedModule {}

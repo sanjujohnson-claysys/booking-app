@@ -6,7 +6,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserModule } from './user/user.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { HttpClientModule ,HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DataService } from './data.service';
 import { HomeModule } from './home/home.module';
 import { HomeRoutingModule } from './home-routing.module';
@@ -20,35 +20,26 @@ import { JwtInterceptor } from './auth.service';
 import { SignOutComponent } from './sign-out/sign-out.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    FooterComponent,
-    SignOutComponent,
-
-    // Add other components that belong to this module here
-  ],
-  imports: [
-    BrowserModule,
-    MatSnackBarModule,
-    AppRoutingModule,
-    FormsModule,
-    SharedModule,
-    UserModule,
-    HttpClientModule,
-    HomeModule,
-    HomeRoutingModule,
-    ReactiveFormsModule,
-    UserRoutingModule,
-    RouterModule,
-    BrowserAnimationsModule,
-    // AdminRoutingModule,
-  ],
-  providers: [DataService, UserBookingStatusService, adminBookingService, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: JwtInterceptor,
-    multi: true
-  }],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        FooterComponent,
+        SignOutComponent,
+        // Add other components that belong to this module here
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        MatSnackBarModule,
+        AppRoutingModule,
+        FormsModule,
+        SharedModule,
+        UserModule,
+        HomeModule,
+        HomeRoutingModule,
+        ReactiveFormsModule,
+        UserRoutingModule,
+        RouterModule,
+        BrowserAnimationsModule], providers: [DataService, UserBookingStatusService, adminBookingService, {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptor,
+            multi: true
+        }, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {}
