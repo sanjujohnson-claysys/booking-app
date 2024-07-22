@@ -1,32 +1,46 @@
-/* Custom CSS for the horizontal navbar */
 .navbar {
-    background-color: #007BFF;
-    /* Change the background color to your preference */
-    padding: 0.5rem 1rem;
-    /* Add some padding for spacing */
-}
-
-.navbar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #062f5b; /* Blue background */
+    padding: 10px 20px;
+  }
+  
+  .navbar-left {
     display: flex;
     align-items: center;
-    /* Center the items vertically */
-    list-style: none;
-}
-
-.nav-item {
-    margin-right: 20px;
-    /* Add space between menu items */
-}
-
-.nav-link {
-    color: #161515;
-    /* Change the text color to white */
+  }
+  
+  .company-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .company-name {
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .navbar-right {
+    display: flex;
+  }
+  
+  .nav-link {
+    color: white;
     text-decoration: none;
-    transition: color 0.3s;
-    /* Smooth color transition on hover */
-}
-
-.nav-link:hover {
-    color: #74e511;
-    /* Change text color on hover to gold or your preferred color */
-}
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .nav-link:hover {
+    
+    color: gold;
+  }
+  
+  .active-link {
+    background-color: gray;
+    color: #062f5b;
+  }
+  

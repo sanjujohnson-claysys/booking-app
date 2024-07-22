@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { MarkUnavailable } from './mark-unavailable';
+import { MarkUnavailable } from '../../shared/mark-unavailable';
 
 @Injectable({
   providedIn: 'root',

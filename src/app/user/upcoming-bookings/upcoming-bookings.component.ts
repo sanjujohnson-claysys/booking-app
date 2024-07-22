@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserBookingStatusService } from 'src/app/user-booking-status.service';
+import { UserBookingStatusService } from 'src/app/user/userService/user-booking-status.service';
 import { ListBookingDetails } from 'src/app/shared/booking-details';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/app/home/homeServices/auth.service';
 @Component({
   selector: 'app-upcoming-bookings',
   templateUrl: './upcoming-bookings.component.html',

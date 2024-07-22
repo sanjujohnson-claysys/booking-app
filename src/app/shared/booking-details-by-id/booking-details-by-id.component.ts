@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DataService } from 'src/app/data.service';
+import { DataService } from 'src/app/shared/shared-service/data.service';
 
 // Assuming you have a ListBookingDetails interface
 interface ListBookingDetails {

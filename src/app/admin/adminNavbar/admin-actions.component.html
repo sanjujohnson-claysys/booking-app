@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-md navbar-light">
+  <div class="navbar-left">
+    <img src="path/to/icon.png" alt="Company Icon" class="company-icon" />
+    <span class="company-name">Company Name</span>
+  </div>
+  <div class="navbar-right">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLinkActive="active-link"
+          routerLink="/admin-actions/booking"
+          [queryParams]="{ feature: 'admin-booking' }"
+          >Book for a User</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLinkActive="active-link"
+          routerLink="/admin-actions/booking"
+          [queryParams]="{ feature: 'mark-unavailable' }"
+          >Mark Unavailable</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/admin-actions/upcoming-bookings"
+          >Upcoming Bookings</a
+        >
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLinkActive="active-link"
+          routerLink="/admin-actions/employee-wise-data"
+          >Employee-wise Booking Data</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLinkActive="active-link"
+          routerLink="/admin-actions/booking-graph"
+          >Booking Graph</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLinkActive="active-link"
+          routerLink="/admin-actions/sign-out"
+          >Sign Out</a
+        >
+      </li>
+    </ul>
+  </div>
+</nav>

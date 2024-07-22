@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { DataService } from 'src/app/data.service';
+import { DataService } from 'src/app/shared/shared-service/data.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserBookingStatusService } from 'src/app/user-booking-status.service';
+import { UserBookingStatusService } from 'src/app/user/userService/user-booking-status.service';
 import { MarkUnavailable } from '../mark-unavailable';
-import { MarkWorkspaceUnavailableService } from '../mark-workspace-unavailable.service';
+import { MarkWorkspaceUnavailableService } from '../../admin/adminServices/mark-workspace-unavailable.service';
 import { FetchEmployeeIdsService } from 'src/app//fetch-employee-ids.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/auth.service';
-import { ToastService } from 'src/app/toast.service';
+import { AuthService } from 'src/app/home/homeServices/auth.service';
+import { ToastService } from 'src/app/shared/shared-service/toast.service';
 
 interface BookingData {
   BookingDate: string;

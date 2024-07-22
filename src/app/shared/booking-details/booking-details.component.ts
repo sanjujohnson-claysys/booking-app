@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/data.service';
+import { DataService } from 'src/app/shared/shared-service/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { ListBookingDetails } from 'src/app/shared/booking-details';
 

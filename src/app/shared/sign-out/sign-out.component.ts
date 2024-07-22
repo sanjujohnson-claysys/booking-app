@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TriggerNavbarService } from '../../trigger-navbar.service';
+import { TriggerNavbarService } from '../shared-service/trigger-navbar.service';
 
 @Component({
   selector: 'app-sign-out',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminActionsService } from 'src/app/admin-actions.service';
+import { AdminActionsService } from 'src/app/admin/adminServices/admin-actions.service';
 
 @Component({
   selector: 'app-user-messages',

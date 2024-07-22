@@ -1,34 +1,49 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light">
-  <ul class="navbar-nav">
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [routerLink]="'/user/booking'"
-        [queryParams]="{ feature: 'user-booking' }"
-      >
-        Book a Workspace
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/user/booking-details">Booking Details</a>
-    </li>
-    <!-- "['/admin-actions/booking','mark-unavailable']" -->
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/user/upcoming-bookings"
-        >Upcoming Bookings</a
-      >
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/user/contact-admin">Contact Admin</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/user/update-profile">Update Profile</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/user/sign-out">Sign Out</a>
-    </li>
-  </ul>
+<nav class="navbar">
+  <div class="navbar-left">
+    <img
+      src="./assets/Icons/icons8-workspace-26.png"
+      alt="Company Icon"
+      class="company-icon"
+    />
+    <span class="company-name">Company Name</span>
+  </div>
+  <div class="navbar-right">
+    <a
+      [routerLink]="'/user/booking'"
+      [queryParams]="{ feature: 'user-booking' }"
+      routerLinkActive="active-link"
+      class="nav-link"
+      >Book a Workspace</a
+    >
+    <a
+      routerLink="/user/booking-details"
+      routerLinkActive="active-link"
+      class="nav-link"
+      >Booking Details</a
+    >
+    <a
+      routerLink="/user/upcoming-bookings"
+      routerLinkActive="active-link"
+      class="nav-link"
+      >Upcoming Bookings</a
+    >
+    <a
+      routerLink="/user/contact-admin"
+      routerLinkActive="active-link"
+      class="nav-link"
+      >Contact Admin</a
+    >
+    <a
+      routerLink="/user/update-profile"
+      routerLinkActive="active-link"
+      class="nav-link"
+      >Update Profile</a
+    >
+    <a
+      routerLink="/user/sign-out"
+      routerLinkActive="active-link"
+      class="nav-link"
+      >Sign Out</a
+    >
+  </div>
 </nav>
-
-<router-outlet></router-outlet>

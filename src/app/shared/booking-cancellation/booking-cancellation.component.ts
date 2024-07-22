@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/data.service'; // Import your DataService
+import { DataService } from 'src/app/shared/shared-service/data.service'; // Import your DataService
 import { ListBookingDetails } from 'src/app/shared/booking-details'; // Import your interface
-import { MarkWorkspaceUnavailableService } from '../mark-workspace-unavailable.service';
+import { MarkWorkspaceUnavailableService } from '../../admin/adminServices/mark-workspace-unavailable.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

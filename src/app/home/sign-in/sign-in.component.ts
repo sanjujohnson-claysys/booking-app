@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/app/home/homeServices/auth.service';
 import { Router } from '@angular/router';
-import { TriggerNavbarService } from 'src/app/trigger-navbar.service';
+import { TriggerNavbarService } from 'src/app/shared/shared-service/trigger-navbar.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -79,3 +79,33 @@ export class SignInComponent implements OnInit {
   }
 
 }
+// import { Component } from '@angular/core';
+// import { FormControl, FormGroup, Validators } from '@angular/forms';
+// import { Router } from '@angular/router';
+// import { AuthService } from 'src/app/home/homeServices/auth.service';
+
+// @Component({
+//   selector: 'app-login',
+//   templateUrl: './sign-in.component.html',
+//   styleUrls: ['./sign-in.component.scss'],
+// })
+// export class LoginComponent {
+//   form = new FormGroup({
+//     username: new FormControl(null, Validators.required),
+//     password: new FormControl(null, Validators.required),
+//   });
+
+//   constructor(private authService: AuthService, private router: Router) {}
+
+//   submitForm() {
+//     if (this.form.invalid) {
+//       return;
+//     }
+
+//     this.authService
+//       .login(this.form.get('username')?.value, this.form.get('password')?.value)
+//       .subscribe((response) => {
+//         this.router.navigate(['/dashboard']);
+//       });
+//   }
+// }

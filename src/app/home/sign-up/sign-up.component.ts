@@ -5,11 +5,12 @@ import {
   FormGroup,
   Validators,
   AbstractControl,
+  ValidationErrors,
 } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DataService } from 'src/app/data.service';
-import { ToastService } from 'src/app/toast.service';
+import { DataService } from 'src/app/shared/shared-service/data.service';
+import { ToastService } from 'src/app/shared/shared-service/toast.service';
 
 @Component({
   selector: 'app-employee-signup',
@@ -30,7 +31,11 @@ export class EmployeeSignupComponent {
   constructor(private fb: FormBuilder, private dataService: DataService,private toastService: ToastService, private router: Router) {
     this.signupForm = this.fb.group(
       {
-        firstName: ['', Validators.required],
+        firstName: ['',Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+          Validators.pattern(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/),
+          this.noLeadingOrTrailingSpaceValidator],
         lastName: ['', Validators.required],
         gender: ['', Validators.required],
         dob: ['', Validators.required, this.validateAge],
@@ -48,7 +53,13 @@ export class EmployeeSignupComponent {
       { validator: this.passwordMatchValidator }
     );
   }
-
+  noLeadingOrTrailingSpaceValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (value && (value.startsWith(' ') || value.endsWith(' '))) {
+      return { 'noLeadingOrTrailingSpace': true };
+    }
+    return null;
+  }
   passwordMatchValidator(
     control: AbstractControl
   ): { [key: string]: boolean } | null {

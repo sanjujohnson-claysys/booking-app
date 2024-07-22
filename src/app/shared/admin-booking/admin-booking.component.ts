@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { adminBookingService } from 'src/app/admin-booking.service';
+import { adminBookingService } from 'src/app/admin/adminServices/admin-booking.service';
 
 @Component({
   selector: 'app-admin-booking',

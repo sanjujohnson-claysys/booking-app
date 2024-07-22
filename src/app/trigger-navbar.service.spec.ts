@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TriggerNavbarService } from './trigger-navbar.service';
+import { TriggerNavbarService } from './shared/shared-service/trigger-navbar.service';
 
 describe('TriggerNavbarService', () => {
   let service: TriggerNavbarService;

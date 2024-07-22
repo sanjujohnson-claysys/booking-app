@@ -6,9 +6,9 @@ import {
   FormControl,
   AbstractControl,
 } from '@angular/forms';
-import { DataService } from 'src/app/data.service';
+import { DataService } from 'src/app/shared/shared-service/data.service';
 import { EmployeeDetails } from '../employeedetails';
-import { UserService } from 'src/app/user.service';
+import { UserService } from 'src/app/user/userService/user.service';
 
 @Component({
   selector: 'app-update-profile',

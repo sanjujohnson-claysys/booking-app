@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MarkWorkspaceUnavailableService } from './mark-workspace-unavailable.service';
+import { MarkWorkspaceUnavailableService } from '../admin/adminServices/mark-workspace-unavailable.service';
 
 describe('MarkWorkspaceUnavailableService', () => {
   let service: MarkWorkspaceUnavailableService;

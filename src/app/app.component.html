@@ -18,6 +18,7 @@
 <app-user-navbar *ngIf="isUser"></app-user-navbar>
 <app-admin-actions *ngIf="isAdmin"></app-admin-actions>
 <app-home-main *ngIf="!(isAdmin || isUser)"></app-home-main>
+<router-outlet></router-outlet>
 <!-- <app-booking-cancellation></app-booking-cancellation>
 <app-booking-details></app-booking-details> -->
 <!-- <app-contact-admin></app-contact-admin> -->

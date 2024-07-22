@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth.service';
-import { DataService } from 'src/app/data.service';
+import { AuthService } from 'src/app/home/homeServices/auth.service';
+import { DataService } from 'src/app/shared/shared-service/data.service';
 
 @Component({
   selector: 'app-display-booking-data-for-user',

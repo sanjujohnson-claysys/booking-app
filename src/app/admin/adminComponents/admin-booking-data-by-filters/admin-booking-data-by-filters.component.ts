@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { AdminActionsService } from 'src/app/admin-actions.service';
+import { AdminActionsService } from 'src/app/admin/adminServices/admin-actions.service';
 
 @Component({
   selector: 'app-admin-booking-data-by-filters',

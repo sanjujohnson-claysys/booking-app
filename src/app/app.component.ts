@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from './home/homeServices/auth.service';
 import { Router, ActivatedRoute, NavigationEnd, Event } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { TriggerNavbarService } from './trigger-navbar.service';
+import { TriggerNavbarService } from './shared/shared-service/trigger-navbar.service';
 import { Subscription } from 'rxjs';
 
 @Component({
