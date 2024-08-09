@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/home/homeServices/auth.service';
 })
 export class UpcomingBookingsComponent implements OnInit {
   bookings: ListBookingDetails[] = [];
-  employeeId = parseInt(this.jwt.decodeRoles()[0])
+  employeeId = this.jwt.getUserInfo()?.customJwtPayload.nameidentifier;
 
   constructor(private bookingService: UserBookingStatusService,private jwt:AuthService,) {}
 

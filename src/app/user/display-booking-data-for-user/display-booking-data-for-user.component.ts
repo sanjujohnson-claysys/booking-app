@@ -62,7 +62,7 @@ export class DisplayBookingDataForUserComponent implements OnInit {
       endDate: this.endDateString,
       BookingTime: this.bookingTime,
       BookedRoom: this.bookedRoom,
-      EmployeeId: (this.employeeId = this.jwt.decodeRoles()[0]),
+      EmployeeId: this.employeeId ,
       Status: this.status,
     };
     console.log('the value of booking time is:', this.bookingTime);

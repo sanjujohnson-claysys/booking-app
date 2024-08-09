@@ -52,9 +52,10 @@ export class SignInComponent implements OnInit {
       (response) => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
-          
-          this.role = this.authService.decodeRoles()[2];
-          this.setUserRole();
+          if(this.authService.getUserInfo()){
+          this.role = this.authService.getUserInfo()?.customJwtPayload.role;
+          console.log(this.authService.getUserInfo())
+          this.setUserRole();}
           if (this.isAdmin) {
             this.router.navigate(['admin-actions']);
           } else if (this.isUser) {

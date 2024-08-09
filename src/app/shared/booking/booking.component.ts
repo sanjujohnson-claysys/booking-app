@@ -282,7 +282,7 @@ export class BookingComponent {
         BookedRoom: this.selectedRoom,
         BookedWorkspace: this.selectedWorkspace.toString(),
         EmployeeId: this.selectedId,
-        EmployeeName:this.jwt.decodeRoles()[1],
+        EmployeeName:this.jwt.getUserInfo().customJwtPayload.name,
         Status: 'Booked',
     };
 
@@ -413,7 +413,7 @@ export class BookingComponent {
     }
   }
   employees: any[] | undefined;
-  selectedId: number = parseInt(this.jwt.decodeRoles()[0]);
+  selectedId: number = this.jwt.getUserInfo().customJwtPayload.nameidentifier;
 
   fetchEmployees() {
     this.fetchidsandnames.getEmployees().subscribe((data) => {

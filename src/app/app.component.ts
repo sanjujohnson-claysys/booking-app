@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngDoCheck(){
     this.isUser = false;
   this.isAdmin = false;
-      this.role = this.authservice.decodeRoles()[2];
+      this.role = this.authservice.getUserInfo()?.customJwtPayload.role;
       this.setNavbarRole();
   }
 
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription = this.navBarService.navbarRole$.subscribe(() => {
       this.isUser = false;
   this.isAdmin = false;
-      this.role = this.authservice.decodeRoles()[2];
+      this.role = this.authservice.getUserInfo()?.customJwtPayload.role;
       this.setNavbarRole();
       console.log("setNavbarRole function triggered")
     });

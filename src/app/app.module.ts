@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { adminBookingService } from './admin/adminServices/admin-booking.service';
 import { RouterModule, Routes } from '@angular/router';
 import { UserRoutingModule } from './user/user-routing/user-routing.module';
-import { JwtInterceptor } from './home/homeServices/auth.service';
+import { JwtInterceptor } from './jwt';
 import { SignOutComponent } from './sign-out/sign-out.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
